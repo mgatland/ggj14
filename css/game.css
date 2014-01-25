@@ -37,18 +37,17 @@
 	-moz-backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
+
+	transition: 1.6s;
+	transform-style: preserve-3d;
 }
 
 /* flip the pane when hovered */
 .card.dead .front {
-	transition: 1.6s;
-	transform-style: preserve-3d;
 	-webkit-transform: rotateY(180deg);
 	-transform: rotateY(180deg);
 }
 .card.dead .back {
-	transition: 1.6s;
-	transform-style: preserve-3d;
 	-webkit-transform: rotateY(0deg);
 	-transform: rotateY(0deg);
 }
