@@ -99,6 +99,7 @@ define(function () {
 			var tokens = this.cover;
 			this.cover -= num;
 			if (this.cover < 0) this.cover = 0;
+			if (this.cover > 10) this.cover = 10;
 			while (tokens < this.cover) {
 				var iDiv = document.createElement('div');
 				iDiv.className = 'coverToken';
