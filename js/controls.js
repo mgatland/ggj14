@@ -8,6 +8,8 @@ define(function () {
 		var ele = document.querySelector(".p" + i + ".controls");
 		var cooldownEle = document.querySelector(".p" + i + ".controls .cooldown");
 		cooldownEle.style.width =  "0%";
+		var cardsEle = document.querySelector(".cards");
+
 
 		this.update = function () {
 			if (state === "wait") {
@@ -51,16 +53,22 @@ define(function () {
 				ele.classList.add("chooseTarget");
 				ele.classList.remove("chooseAction");
 				ele.classList.remove("wait");
+				ele.classList.toggle("keyhints", false);
+				cardsEle.classList.toggle("keyhints" + i, true);
 			}
 			if (state === "chooseAction") {
 				ele.classList.remove("chooseTarget");
 				ele.classList.add("chooseAction");
 				ele.classList.remove("wait");
+				ele.classList.toggle("keyhints", true);
+				cardsEle.classList.toggle("keyhints" + i, false);
 			}
 			if (state === "wait") {
 				ele.classList.remove("chooseTarget");
 				ele.classList.remove("chooseAction");
 				ele.classList.add("wait");
+				ele.classList.toggle("keyhints", false);
+				cardsEle.classList.toggle("keyhints" + i, false);
 			}
 		}
 

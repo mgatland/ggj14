@@ -35,6 +35,7 @@
 	border: 2px solid black;
 	margin: 16px auto;
 	padding: 8px;
+	position: relative;
 }
 
 .bar {
@@ -50,6 +51,39 @@
 	height: 32px;
 	background: #D0F272;
 	border-radius:  16px;
+}
+
+.keyhint {
+	width: 16px;
+	height: 16px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	margin-left: -12px;
+	margin-top: -12px;
+	background: yellow;
+	border: 1px solid black;
+	position: absolute;
+	display: none;
+}
+
+.keyhint.p1 {
+	background: skyblue;
+}
+
+.cards .keyhint.p1 {
+	margin-left: 200px;
+}
+
+.keyhints .keyhint {
+	display: block;
+}
+
+.keyhints0 .keyhint.p0 {
+	display: block;
+}
+
+.keyhints1 .keyhint.p1 {
+	display: block;
 }
 
 /* Elements I might remove */
