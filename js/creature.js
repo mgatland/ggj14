@@ -4,7 +4,7 @@ define(function () {
 	var Shoot = function () {
 		this.verb = " fire at ";
 		this.needsTarget = true;
-		this.coolDown = 30;
+		this.cooldown = 30;
 		this.coverDamage = 1;
 		this.isFatal = true;
 	}
@@ -12,14 +12,14 @@ define(function () {
 	var FindCover = function () {
 		this.verb = " move back to find cover.";
 		this.needsTarget = false;
-		this.coolDown = 60;
+		this.cooldown = 60;
 		this.coverCost = -2;
 	}
 
 	var Charge = function () {
 		this.verb = " charge towards ";
 		this.needsTarget = false;
-		this.coolDown = 30;
+		this.cooldown = 30;
 		this.coverCost = 4;
 		this.targets = "both enemies";
 		this.coverDamage = 2;
@@ -39,6 +39,14 @@ define(function () {
 
 		this.alive = true;
 		this.deadTimer = 0;
+
+		var cooldownEle;
+		this.cooldown = 0;
+		this.maxCooldown = 0;
+
+		var init = function () {
+			cooldownEle = getElement("cooldown");
+		}
 
 		this.die = function () {
 			if (!this.alive) return;
@@ -95,16 +103,28 @@ define(function () {
 				creatures.forEach(function (c) {
 					c.draw();
 				})
-				return action.coolDown;
+				this.maxCooldown = action.cooldown;
+				this.cooldown = this.maxCooldown;
+				console.log(this.cooldown);
+				return;
 			} else {
 				console.log("Not enough energy to do that.");
-				return 2;
+				return;
 			}
 		};
 
 		this.update = function () {
 			if (this.deadTimer > 0) {
 				this.deadTimer--;
+			}
+
+			if (this.cooldown > 0) {
+				this.cooldown--;
+				var coolPercentage = Math.round(this.cooldown * 100 / this.maxCooldown);
+				cooldownEle.style.width = coolPercentage + "%";
+				console.log(this.coolPercentage);
+			} else {
+				cooldownEle.style.width = 0;
 			}
 		}
 
@@ -120,11 +140,12 @@ define(function () {
 
 		var getElement = function(ele) {
 			if (ele) {
-				return document.querySelector(".card.p" + id + " > ." + ele);
+				return document.querySelector(".card.p" + id + " ." + ele);
 			} else {
 				return document.querySelector(".card.p" + id); 
 			}
 		}
+		init();
 	}
 return Creature;
 });

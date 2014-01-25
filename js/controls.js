@@ -4,8 +4,6 @@ define(function () {
 		this.i = i;
 		var state = "";
 		var selectedAction = "";
-		var coolDown = 0;
-		var maxCoolDown = 0;
 		
 		var ele = document.querySelector(".p" + i + ".controls");
 		var cooldownEle = document.querySelector(".p" + i + ".controls .cooldown");
@@ -13,9 +11,9 @@ define(function () {
 
 		this.update = function () {
 			if (state === "wait") {
-				if (coolDown > 0) {
-					coolDown--;
-					var coolPercentage = Math.round(coolDown * 100 / maxCoolDown);
+				var cooldown = creature.cooldown;
+				if (cooldown > 0) {
+					var coolPercentage = Math.round(creature.cooldown * 100 / creature.maxCooldown);
 					cooldownEle.style.width = coolPercentage + "%";
 				} else {
 					setState("chooseAction");
@@ -39,8 +37,6 @@ define(function () {
 
 			selectedAction = "";
 			setState("wait");
-			coolDown = coolDownTime;
-			maxCoolDown = coolDown;
 		}
 
 		this.cardSelected = function (num) {
