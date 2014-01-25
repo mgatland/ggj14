@@ -7,8 +7,6 @@ define(function () {
 		var selectedAction = "";
 		
 		var ele = document.querySelector(".p" + i + ".controls");
-		var cooldownEle = document.querySelector(".p" + i + ".controls .cooldown");
-		cooldownEle.style.width =  "0%";
 		var cardsEle = document.querySelector(".cards");
 
 		var tryKeys = function (up, down, left, right) {
@@ -27,8 +25,6 @@ define(function () {
 			tryKeys(up, down, left, right);
 			if (state === "wait") {
 				var cooldown = creature.cooldown;
-				var coolPercentage = Math.round(creature.cooldown * 100 / creature.maxCooldown);
-				cooldownEle.style.width = coolPercentage + "%";
 				if (cooldown <= 0) {
 					setState("chooseAction");
 				}
