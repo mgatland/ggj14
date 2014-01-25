@@ -32,7 +32,7 @@ define(function () {
 		var c = this; //for private methods
 		this.id = id;
 		this.name = name;
-		this.cover = cover;
+		this.cover = 0;
 		this.maxCover = cover;
 		this.energy = energy;
 		this.maxEnergy = energy;
@@ -46,6 +46,7 @@ define(function () {
 
 		var cooldownEle;
 		var cooldownLabelEle;
+		var coverTokensEle;
 		this.lastActionText = "";
 		this.cooldown = 0;
 		this.maxCooldown = 0;
@@ -53,7 +54,9 @@ define(function () {
 		var init = function () {
 			cooldownEle = getElement("cooldown");
 			cooldownLabelEle = getElement("bar .label");
+			coverTokensEle = getElement("coverTokens");
 			if (c.isAI) c.cooldown = Math.floor(Math.random() * 30) + 30;
+			c.loseCover(-c.maxCover); //create cover tokens
 		}
 
 		this.die = function () {
@@ -92,6 +95,22 @@ define(function () {
 			return action.needsTarget;
 		}
 
+		this.loseCover = function (num) {
+			var tokens = this.cover;
+			this.cover -= num;
+			if (this.cover < 0) this.cover = 0;
+			while (tokens < this.cover) {
+				var iDiv = document.createElement('div');
+				iDiv.className = 'coverToken';
+				coverTokensEle.appendChild(iDiv);
+				tokens++;
+			}
+			while (tokens > this.cover) {
+				coverTokensEle.removeChild(coverTokensEle.childNodes[0]);
+				tokens--;
+			}
+		}
+
 		this.useAction = function(actionCode, targetCode) {
 			var action = this.actions[actionCode];
 			if (!action) {
@@ -109,16 +128,16 @@ define(function () {
 					if (action.targets === "both enemies") {
 						getEnemies().forEach(function (target) {
 							if (action.isFatal && target.cover <= 0) target.die();
-							if (action.coverDamage) target.cover -= action.coverDamage;
+							if (action.coverDamage) target.loseCover(action.coverDamage);
 						});
 					}
 				} else {
 					if (action.isFatal && target.cover <= 0) target.die();
-					if (action.coverDamage) target.cover -= action.coverDamage;	
+					if (action.coverDamage) target.loseCover(action.coverDamage);
 					console.log("You" + action.verb + target.name);
 				}
 				if (action.energyCost) this.energy -= action.energyCost;
-				if (action.coverCost) this.cover -= action.coverCost;
+				if (action.coverCost) this.loseCover(action.coverCost);
 				
 				creatures.forEach(function (c) {
 					c.draw();
