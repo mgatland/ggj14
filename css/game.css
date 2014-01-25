@@ -15,6 +15,10 @@
 	margin: 10px;
 }
 
+.card.dead {
+	background: grey;
+}
+
 .controls {
 	width: 140px;
 	height: 720px;

@@ -51,5 +51,12 @@ require(["creature", "controls"], function(Creature, Controls) {
 	window.setInterval(function () {
 		controls[0].update();
 		controls[1].update();
+		creatures.forEach(function (c, index) {
+			c.update();
+			if (c.alive === false && c.deadTimer === 0) {
+				creatures[index] = new Creature(index, "Cat", 5, 5, 5, 5, 5, creatures);
+				creatures[index].draw();
+			}
+		});
 	}, 1000/30);
 });

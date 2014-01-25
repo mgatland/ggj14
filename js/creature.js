@@ -6,6 +6,7 @@ define(function () {
 		this.needsTarget = true;
 		this.coolDown = 30;
 		this.coverDamage = 1;
+		this.isFatal = true;
 	}
 
 	var FindCover = function () {
@@ -35,6 +36,16 @@ define(function () {
 		this.aim = aim;
 		this.dodge = dodge;
 		this.leadership = leadership;
+
+		this.alive = true;
+		this.deadTimer = 0;
+
+		this.die = function () {
+			if (!this.alive) return;
+			this.alive = false;
+			console.log(this.name + " died.");
+			this.deadTimer = 300;
+		}
 
 		var getEnemies = function () {
 			var enemies = [];
@@ -69,10 +80,12 @@ define(function () {
 					console.log("You" + action.verb);
 					if (action.targets === "both enemies") {
 						getEnemies().forEach(function (target) {
+							if (action.isFatal && target.cover <= 0) target.die();
 							if (action.coverDamage) target.cover -= action.coverDamage;
 						});
 					}
 				} else {
+					if (action.isFatal && target.cover <= 0) target.die();
 					if (action.coverDamage) target.cover -= action.coverDamage;	
 					console.log("You" + action.verb + target.name);
 				}
@@ -89,6 +102,12 @@ define(function () {
 			}
 		};
 
+		this.update = function () {
+			if (this.deadTimer > 0) {
+				this.deadTimer--;
+			}
+		}
+
 		this.draw = function () {
 			getElement("name").innerHTML = this.name;
 			getElement("cover").innerHTML = "Cover: " + this.cover + "/" + this.maxCover;
@@ -96,10 +115,15 @@ define(function () {
 			getElement("aim").innerHTML = "Aim: " + this.aim;
 			getElement("dodge").innerHTML = "Dodge: " + this.dodge;
 			getElement("leadership").innerHTML = "Leadership: " + this.leadership;
+			getElement().classList.toggle("dead", !this.alive);
 		}
 
 		var getElement = function(ele) {
-			return document.querySelector(".p" + id + " > ." + ele);
+			if (ele) {
+				return document.querySelector(".card.p" + id + " > ." + ele);
+			} else {
+				return document.querySelector(".card.p" + id); 
+			}
 		}
 	}
 return Creature;
