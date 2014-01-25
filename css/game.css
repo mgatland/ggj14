@@ -52,7 +52,12 @@
 	border-radius:  16px;
 }
 
-/* Control state */
+/* Elements I might remove */
+.energy, .dodge, .leadership, .aim {
+	display: none;
+}
+
+/* Control panel state */
 .onChooseTarget {
 	display: none;
 	font-size: 32px;

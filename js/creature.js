@@ -96,7 +96,7 @@ define(function () {
 				console.log(this.name + " tried to use an action but needs to cool down.");
 				return;
 			}
-			var target = (targetCode !== null) ? creatures[targetCode] : null;
+			var target = (typeof targetCode == "number") ? creatures[targetCode] : null;
 			if (!action.energyCost || this.energy >= action.energyCost) {
 				if (target === null) {
 					console.log("You" + action.verb);
@@ -120,7 +120,6 @@ define(function () {
 				this.maxCooldown = action.cooldown;
 				if (this.isAI) this.maxCooldown *= 2;
 				this.cooldown = this.maxCooldown;
-				console.log(this.cooldown);
 				return;
 			} else {
 				console.log("Not enough energy to do that.");
@@ -131,6 +130,7 @@ define(function () {
 		var runAI = function () {
 			var enemies = getEnemies();
 			if (!enemies[0].alive && !enemies[1].alive) return;
+			if (c.cover < 2 && Math.random() > 0.3) c.useAction(1);
 			c.useAction(0, randomEnemyId());
 		};
 
