@@ -12,10 +12,9 @@ define(function () {
 		this.update = function () {
 			if (state === "wait") {
 				var cooldown = creature.cooldown;
-				if (cooldown > 0) {
-					var coolPercentage = Math.round(creature.cooldown * 100 / creature.maxCooldown);
-					cooldownEle.style.width = coolPercentage + "%";
-				} else {
+				var coolPercentage = Math.round(creature.cooldown * 100 / creature.maxCooldown);
+				cooldownEle.style.width = coolPercentage + "%";
+				if (cooldown <= 0) {
 					setState("chooseAction");
 				}
 			}

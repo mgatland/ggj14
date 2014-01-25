@@ -2,10 +2,10 @@
 require(["creature", "controls"], function(Creature, Controls) {
 
 	var creatures = [];
-	creatures[0] = new Creature(0, "Sophia", 5, 5, 5, 5, 5, creatures);
-	creatures[1] = new Creature(1, "Amanda", 7, 4, 5, 4, 6, creatures);
-	creatures[2] = new Creature(2, "Bandit", 5, 5, 5, 5, 5, creatures);
-	creatures[3] = new Creature(3, "Bandit Leader", 5, 5, 5, 5, 5, creatures);
+	creatures[0] = new Creature(0, "Sophia", 5, 5, 5, 5, 5, creatures, false);
+	creatures[1] = new Creature(1, "Amanda", 7, 4, 5, 4, 6, creatures, false);
+	creatures[2] = new Creature(2, "Bandit", 5, 5, 5, 5, 5, creatures, true);
+	creatures[3] = new Creature(3, "Bandit Leader", 5, 5, 5, 5, 5, creatures, true);
 
 	creatures.forEach(function (c) {
 		c.draw();
@@ -38,8 +38,9 @@ require(["creature", "controls"], function(Creature, Controls) {
 	var cardsEle = document.querySelector('.cards');
 	cardsEle.addEventListener('click', function (event) {
 		var node = event.target;
-		while(node && !node.classList.contains('card')) {
+		while(node && node.classList && !node.classList.contains('card')) {
 		    node = node.parentNode;
+		    if (!node.classList) return; //we clicked outside a card.
 		}
 		var num = 0;
 		for (var i = 0; i < 4; i++) {
@@ -54,7 +55,7 @@ require(["creature", "controls"], function(Creature, Controls) {
 		creatures.forEach(function (c, index) {
 			c.update();
 			if (c.alive === false && c.deadTimer === 0) {
-				creatures[index] = new Creature(index, "Cat", 5, 5, 5, 5, 5, creatures);
+				creatures[index] = new Creature(index, "Cat", 5, 5, 5, 5, 5, creatures, true);
 				creatures[index].draw();
 			}
 		});

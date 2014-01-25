@@ -25,7 +25,7 @@ define(function () {
 		this.coverDamage = 2;
 	}
 
-	var Creature = function (id, name, cover, energy, aim, dodge, leadership, creatures) {
+	var Creature = function (id, name, cover, energy, aim, dodge, leadership, creatures, isAI) {
 		var c = this; //for private methods
 		this.id = id;
 		this.name = name;
@@ -36,6 +36,7 @@ define(function () {
 		this.aim = aim;
 		this.dodge = dodge;
 		this.leadership = leadership;
+		this.isAI = isAI ? true : false;
 
 		this.alive = true;
 		this.deadTimer = 0;
@@ -46,6 +47,7 @@ define(function () {
 
 		var init = function () {
 			cooldownEle = getElement("cooldown");
+			if (c.isAI) c.cooldown = Math.floor(Math.random() * 30) + 30;
 		}
 
 		this.die = function () {
@@ -53,6 +55,11 @@ define(function () {
 			this.alive = false;
 			console.log(this.name + " died.");
 			this.deadTimer = 300;
+		}
+
+		//only for AI at the moment
+		var randomEnemy = function () {
+			return Math.floor(Math.random() * 2);
 		}
 
 		var getEnemies = function () {
@@ -81,6 +88,11 @@ define(function () {
 			var action = this.actions[actionCode];
 			if (!action) {
 				alert("Error: this action does not exist: " + actionCode);
+				return;
+			}
+			if (this.cooldown > 0) {
+				console.log(this.name + " tried to use an action but needs to cool down.");
+				return;
 			}
 			var target = (targetCode !== null) ? creatures[targetCode] : null;
 			if (!action.energyCost || this.energy >= action.energyCost) {
@@ -104,6 +116,7 @@ define(function () {
 					c.draw();
 				})
 				this.maxCooldown = action.cooldown;
+				if (this.isAI) this.maxCooldown *= 2;
 				this.cooldown = this.maxCooldown;
 				console.log(this.cooldown);
 				return;
@@ -113,6 +126,10 @@ define(function () {
 			}
 		};
 
+		var runAI = function () {
+			c.useAction(0, randomEnemy());
+		};
+
 		this.update = function () {
 			if (this.deadTimer > 0) {
 				this.deadTimer--;
@@ -120,11 +137,14 @@ define(function () {
 
 			if (this.cooldown > 0) {
 				this.cooldown--;
-				var coolPercentage = Math.round(this.cooldown * 100 / this.maxCooldown);
+				var coolPercentage = Math.floor(this.cooldown * 100 / this.maxCooldown);
 				cooldownEle.style.width = coolPercentage + "%";
-				console.log(this.coolPercentage);
 			} else {
 				cooldownEle.style.width = 0;
+			}
+
+			if (this.cooldown <= 0 && this.alive && this.isAI) {
+				runAI();
 			}
 		}
 
