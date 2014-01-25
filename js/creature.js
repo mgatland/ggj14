@@ -57,9 +57,11 @@ define(function () {
 			this.deadTimer = 300;
 		}
 
-		//only for AI at the moment
-		var randomEnemy = function () {
-			return Math.floor(Math.random() * 2);
+		var randomEnemyId = function () {
+			var enemies = getEnemies();
+			if (!enemies[0].alive) return 1;
+			if (!enemies[1].alive) return 0;
+			return enemies[Math.floor(Math.random() * 2)].id;
 		}
 
 		var getEnemies = function () {
@@ -127,7 +129,7 @@ define(function () {
 		};
 
 		var runAI = function () {
-			c.useAction(0, randomEnemy());
+			c.useAction(0, randomEnemyId());
 		};
 
 		this.update = function () {
