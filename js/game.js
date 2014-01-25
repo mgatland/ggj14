@@ -1,6 +1,7 @@
 "use strict";
-require(["creature", "controls"], function(Creature, Controls) {
+require(["creature", "controls", "keyboard"], function(Creature, Controls, Keyboard) {
 
+	var keyboard = new Keyboard();
 	var creatures = [];
 	creatures[0] = new Creature(0, "Sophia", 5, 5, 5, 5, 5, creatures, false);
 	creatures[1] = new Creature(1, "Amanda", 7, 4, 5, 4, 6, creatures, false);
@@ -50,8 +51,17 @@ require(["creature", "controls"], function(Creature, Controls) {
 	}, false);
 
 	window.setInterval(function () {
-		controls[0].update();
-		controls[1].update();
+		var left = (keyboard.isKeyHit(KeyEvent.DOM_VK_LEFT));
+		var right = (keyboard.isKeyHit(KeyEvent.DOM_VK_RIGHT));
+		var up = (keyboard.isKeyHit(KeyEvent.DOM_VK_UP));
+		var down = (keyboard.isKeyHit(KeyEvent.DOM_VK_DOWN));
+		var left2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_A));
+		var right2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_D));
+		var up2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_W));
+		var down2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_S));
+		keyboard.update();
+		controls[0].update(up2, down2, left2, right2);
+		controls[1].update(up, down, left, right);
 		creatures.forEach(function (c, index) {
 			c.update();
 			if (c.alive === false && c.deadTimer === 0 && c.isAI) {

@@ -1,6 +1,7 @@
 "use strict";
 define(function () {
 	var Controls = function (i, creature) {
+		var controls = this; //for private methods
 		this.i = i;
 		var state = "";
 		var selectedAction = "";
@@ -10,8 +11,20 @@ define(function () {
 		cooldownEle.style.width =  "0%";
 		var cardsEle = document.querySelector(".cards");
 
+		var tryKeys = function (up, down, left, right) {
+			if (state === "chooseAction") {
+				if (up) controls.actionSelected(0);
+				if (down) controls.actionSelected(1);
+				if (left) controls.actionSelected(2);
+				if (right) controls.actionSelected(3);
+			} else if (state === "chooseTarget") {
+				if (left) controls.cardSelected(2);
+				if (right) controls.cardSelected(3);	
+			}
+		}
 
-		this.update = function () {
+		this.update = function (up, down, left, right) {
+			tryKeys(up, down, left, right);
 			if (state === "wait") {
 				var cooldown = creature.cooldown;
 				var coolPercentage = Math.round(creature.cooldown * 100 / creature.maxCooldown);
