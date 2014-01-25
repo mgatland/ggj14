@@ -51,4 +51,9 @@ require(["creature", "controls"], function(Creature, Controls) {
 		}
 		cardSelected(num);
 	}, false);
+
+	window.setInterval(function () {
+		controls[0].update();
+		controls[1].update();
+	}, 1000/60);
 });

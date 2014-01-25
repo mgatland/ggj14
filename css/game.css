@@ -16,19 +16,20 @@
 }
 
 .controls {
-	width: 200px;
+	width: 140px;
 	height: 720px;
 	display: inline-block;
 	border: 2px solid black;
 	vertical-align:top;
-
+	padding: 16px;
+	text-align: center;
 }
 
 .actionbutton {
-	width: 150px;
+	width: 100px;
 	height: 32px;
 	border: 2px solid black;
-	margin: 16px;
+	margin: 16px auto;
 	padding: 8px;
 }
 

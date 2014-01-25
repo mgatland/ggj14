@@ -7,6 +7,17 @@ define(function () {
 		var coolDown = 0;
 		
 		var ele = document.querySelector(".p" + i + ".controls");
+		
+
+		this.update = function () {
+			if (state === "wait") {
+				if (coolDown > 0) {
+					coolDown--;
+				} else {
+					setState("chooseAction");
+				}
+			}
+		}
 
 		this.actionSelected = function (act) {
 			if (state !== "chooseAction") return;
