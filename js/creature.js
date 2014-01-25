@@ -129,6 +129,8 @@ define(function () {
 		};
 
 		var runAI = function () {
+			var enemies = getEnemies();
+			if (!enemies[0].alive && !enemies[1].isAlive) return;
 			c.useAction(0, randomEnemyId());
 		};
 
