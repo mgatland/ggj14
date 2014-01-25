@@ -54,7 +54,7 @@ require(["creature", "controls"], function(Creature, Controls) {
 		controls[1].update();
 		creatures.forEach(function (c, index) {
 			c.update();
-			if (c.alive === false && c.deadTimer === 0) {
+			if (c.alive === false && c.deadTimer === 0 && c.isAI) {
 				creatures[index] = new Creature(index, "Cat", 5, 5, 5, 5, 5, creatures, true);
 				creatures[index].draw();
 			}
