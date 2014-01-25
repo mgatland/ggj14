@@ -4,21 +4,58 @@
 	border: 2px solid red;
 	display: inline-block;
 	vertical-align:top;
+	-webkit-perspective:400px;
+	-moz-perspective:100px;
 }
+
 .card {
+	width: 232px; /*fit contents plus padding*/
+	height: 332px;
+	margin: 10px;
+	position: relative;
+	float: left;
+}
+
+.front, .back {
+	position: absolute;
 	width: 200px;
 	height: 300px;
 	padding: 16px;
-	border: 2px solid black;
+	border: 1px solid #ccc;
 	border-radius: 16px;
 	display: inline-block;
-	margin: 10px;
 	vertical-align: top;
 	text-align: center;
+
+	box-shadow: 	inset rgba(255,254,255,0.4) 0 0.3em .3em, 
+					inset rgba(0,0,0,0.1) 0 -0.1em .3em, /* inner shadow */ 
+					rgba(0,0,0,0.3) 0 .1em 1px, /* border */
+					rgba(0,0,0,0.2) 0 .2em 6px; /* drop shadow */
+
+	background-image:         linear-gradient(to bottom, white, #dddddd);
+
+	-moz-backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 
-.card.dead {
-	background: grey;
+/* flip the pane when hovered */
+.card.dead .front {
+	transition: 1.6s;
+	transform-style: preserve-3d;
+	-webkit-transform: rotateY(180deg);
+	-transform: rotateY(180deg);
+}
+.card.dead .back {
+	transition: 1.6s;
+	transform-style: preserve-3d;
+	-webkit-transform: rotateY(0deg);
+	-transform: rotateY(0deg);
+}
+
+.back {
+	-webkit-transform: rotateY(-180deg);
+	-transform: rotateY(-180deg);
 }
 
 .controls {
@@ -65,6 +102,10 @@
 }
 
 /* cover tokens*/
+
+.coverTokens {
+	min-height: 64px; /* will keep two rows even if all tokens are removed*/
+}
 
 .coverToken {
 	/*based on BonBon Buttons 1.1 by simurai.com*/
