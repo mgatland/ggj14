@@ -77,24 +77,29 @@
 }
 
 .bar {
-	width: 100px;
+	width: 192px;
 	height: 32px;
-	background: white;
-	border: 1px solid black;
+	background: #ccc;
 	border-radius: 16px;
 	margin: 16px auto;
 	position: relative;
+	background-image: url(noise.png);
 }
 
 .cooldown {
-	height: 32px;
-	background: #D0F272;
+	height: 20px;
+	margin: 6px;
+	background: hsl(208, 100%, 75%);
 	border-radius:  16px;
 	position: absolute;
+
+	background-image: 	-webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) )), url(noise.png);
+	background-image: 	-moz-radial-gradient(top, ellipse cover, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%), url(noise.png);
+	background-image: 	gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) )), url(noise.png);
 }
 
 .label {
-	width: 100px;
+	width: 192px;
 	position: absolute;
 	margin-top: 6px;
 	text-align: center;

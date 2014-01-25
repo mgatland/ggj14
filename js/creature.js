@@ -55,7 +55,11 @@ define(function () {
 			cooldownEle = getElement("cooldown");
 			cooldownLabelEle = getElement("bar .label");
 			coverTokensEle = getElement("coverTokens");
-			if (c.isAI) c.cooldown = Math.floor(Math.random() * 30) + 30;
+			if (c.isAI) {
+				c.cooldown = Math.floor(Math.random() * 30) + 80;
+				c.maxCooldown = c.cooldown;
+				c.lastActionText = "Get them!";
+			}
 			c.loseCover(-c.maxCover); //create cover tokens
 		}
 
@@ -169,6 +173,7 @@ define(function () {
 			if (this.cooldown > 0) {
 				this.cooldown--;
 				var coolPercentage = Math.floor(this.cooldown * 100 / this.maxCooldown);
+				if (coolPercentage > 92) coolPercentage = 92;
 				cooldownEle.style.width = coolPercentage + "%";
 				cooldownLabelEle.innerHTML = this.lastActionText;
 			} else {
