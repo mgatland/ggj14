@@ -26,7 +26,12 @@ define(function () {
 		this.actionSelected = function (act) {
 			if (state !== "chooseAction") return;
 			selectedAction = act;
-			setState("chooseTarget");
+			if (creature.doesActionNeedTarget(act)) {
+				setState("chooseTarget");	
+			} else {
+				useAction(act, null);
+			}
+			
 		}
 
 		var useAction = function (action, targetNum) {

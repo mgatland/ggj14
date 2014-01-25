@@ -1,36 +1,32 @@
 "use strict";
 define(function () {
 
-	var QuickShots = function () {
-		this.verb = " fire a few rounds at ";
+	var Shoot = function () {
+		this.verb = " fire at ";
+		this.needsTarget = true;
 		this.coolDown = 30;
-		this.energyCost = 2;
-		this.coverDamage = 2;
-	}
-
-	var CarefulShot = function () {
-		this.verb = " carefully aim and fire at ";
-		this.coolDown = 90;
-		this.energyCost = 2;
-		this.coverDamage = 2;
+		this.coverDamage = 1;
 	}
 
 	var FindCover = function () {
 		this.verb = " move back to find cover.";
+		this.needsTarget = false;
 		this.coolDown = 60;
-		this.energyCost = 2;
-		this.coverDamage = 2;
+		this.coverCost = -2;
 	}
 
 	var Charge = function () {
 		this.verb = " charge towards ";
+		this.needsTarget = false;
 		this.coolDown = 30;
-		this.energyCost = 2;
+		this.coverCost = 4;
+		this.targets = "both enemies";
 		this.coverDamage = 2;
 	}
 
-	var Creature = function (i, name, cover, energy, aim, dodge, leadership, creatures) {
-		this.i = i;
+	var Creature = function (id, name, cover, energy, aim, dodge, leadership, creatures) {
+		var c = this; //for private methods
+		this.id = id;
 		this.name = name;
 		this.cover = cover;
 		this.maxCover = cover;
@@ -40,25 +36,52 @@ define(function () {
 		this.dodge = dodge;
 		this.leadership = leadership;
 
+		var getEnemies = function () {
+			var enemies = [];
+			if (c.id === 0 || c.id === 1) {
+				enemies.push(creatures[2]);
+				enemies.push(creatures[3]);
+			} else {
+				enemies.push(creatures[0]);
+				enemies.push(creatures[1]);
+			}
+			return enemies;
+		}
+
 		this.actions = [];
+		this.actions.push(new Shoot());
+		this.actions.push(new FindCover());
+		this.actions.push(new Charge());
 
-		this.actions[0] = new QuickShots();
-		this.actions[1] = new CarefulShot();
-		this.actions[2] = new FindCover();
-		this.actions[3] = new Charge();
+		this.doesActionNeedTarget = function (actionCode) {
+			var action = this.actions[actionCode];
+			return action.needsTarget;
+		}
 
-		this.useAction = function(actionCode, target) {
+		this.useAction = function(actionCode, targetCode) {
 			var action = this.actions[actionCode];
 			if (!action) {
 				alert("Error: this action does not exist: " + actionCode);
 			}
-			var target = creatures[target];
-			if (this.energy >= action.energyCost) {
-				this.energy -= action.energyCost;
-				target.cover -= action.coverDamage;
-				console.log("You" + action.verb + target.name);
-				this.draw();
-				target.draw();
+			var target = (targetCode !== null) ? creatures[targetCode] : null;
+			if (!action.energyCost || this.energy >= action.energyCost) {
+				if (target === null) {
+					console.log("You" + action.verb);
+					if (action.targets === "both enemies") {
+						getEnemies().forEach(function (target) {
+							if (action.coverDamage) target.cover -= action.coverDamage;
+						});
+					}
+				} else {
+					if (action.coverDamage) target.cover -= action.coverDamage;	
+					console.log("You" + action.verb + target.name);
+				}
+				if (action.energyCost) this.energy -= action.energyCost;
+				if (action.coverCost) this.cover -= action.coverCost;
+				
+				creatures.forEach(function (c) {
+					c.draw();
+				})
 				return action.coolDown;
 			} else {
 				console.log("Not enough energy to do that.");
@@ -76,7 +99,7 @@ define(function () {
 		}
 
 		var getElement = function(ele) {
-			return document.querySelector(".p" + i + " > ." + ele);
+			return document.querySelector(".p" + id + " > ." + ele);
 		}
 	}
 return Creature;
