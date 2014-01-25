@@ -13,6 +13,7 @@
 	border-radius: 16px;
 	display: inline-block;
 	margin: 10px;
+	vertical-align: top;
 }
 
 .card.dead {
@@ -45,12 +46,21 @@
 	border: 1px solid black;
 	border-radius: 16px;
 	margin: 16px auto;
+	position: relative;
 }
 
 .cooldown {
 	height: 32px;
 	background: #D0F272;
 	border-radius:  16px;
+	position: absolute;
+}
+
+.label {
+	width: 100px;
+	position: absolute;
+	margin-top: 6px;
+	text-align: center;
 }
 
 .keyhint {

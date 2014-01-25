@@ -2,6 +2,7 @@
 define(function () {
 
 	var Shoot = function () {
+		this.name = "Shooting"
 		this.verb = " fire at ";
 		this.needsTarget = true;
 		this.cooldown = 30;
@@ -10,6 +11,7 @@ define(function () {
 	}
 
 	var FindCover = function () {
+		this.name = "Taking Cover"
 		this.verb = " move back to find cover.";
 		this.needsTarget = false;
 		this.cooldown = 60;
@@ -17,7 +19,8 @@ define(function () {
 	}
 
 	var Charge = function () {
-		this.verb = " charge towards ";
+		this.name = "Charging"
+		this.verb = " charge forwards!";
 		this.needsTarget = false;
 		this.cooldown = 30;
 		this.coverCost = 4;
@@ -42,11 +45,14 @@ define(function () {
 		this.deadTimer = 0;
 
 		var cooldownEle;
+		var cooldownLabelEle;
+		this.lastActionText = "";
 		this.cooldown = 0;
 		this.maxCooldown = 0;
 
 		var init = function () {
 			cooldownEle = getElement("cooldown");
+			cooldownLabelEle = getElement("bar .label");
 			if (c.isAI) c.cooldown = Math.floor(Math.random() * 30) + 30;
 		}
 
@@ -120,6 +126,7 @@ define(function () {
 				this.maxCooldown = action.cooldown;
 				if (this.isAI) this.maxCooldown *= 2;
 				this.cooldown = this.maxCooldown;
+				this.lastActionText = action.name;
 				return;
 			} else {
 				console.log("Not enough energy to do that.");
@@ -143,8 +150,10 @@ define(function () {
 				this.cooldown--;
 				var coolPercentage = Math.floor(this.cooldown * 100 / this.maxCooldown);
 				cooldownEle.style.width = coolPercentage + "%";
+				cooldownLabelEle.innerHTML = this.lastActionText;
 			} else {
 				cooldownEle.style.width = 0;
+				cooldownLabelEle.innerHTML = "";
 			}
 
 			if (this.cooldown <= 0 && this.alive && this.isAI) {
