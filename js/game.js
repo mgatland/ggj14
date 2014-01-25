@@ -97,13 +97,19 @@ require(["pagelink"], function(util) {
 	controls[0] = new Controls(0);
 	controls[1] = new Controls(1);
 
-	var controlsEle0 = document.querySelector('.controls.p0');
-	controlsEle0.addEventListener('click', function (event) {
-	    if (event.target.classList.contains('actionbutton')) {
-	        var action = event.target.className.replace("actionbutton", "").replace(" ", "");
-	        controls[0].actionSelected(action);
-	    }
-	}, false);
+	var addControlsEventListener = function (i) {
+		var controlsEle = document.querySelector('.controls.p' + i);
+		controlsEle.addEventListener('click', function (event) {
+		    if (event.target.classList.contains('actionbutton')) {
+		        var action = event.target.className.replace("actionbutton", "").replace(" ", "");
+		        controls[i].actionSelected(action);
+		    }
+		}, false);
+	}
+
+	for (var i = 0; i < 2; i++) {
+		addControlsEventListener(i);
+	}
 
 	var cardSelected = function(num) {
 		console.log("Card selected: " + num);
