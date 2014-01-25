@@ -169,6 +169,7 @@ body {
 }
 
 .coverToken {
+	font-size: 18px;
 	/*based on BonBon Buttons 1.1 by simurai.com*/
 	width: 8px;
 	height: 8px;
