@@ -2,10 +2,10 @@
 require(["creature", "controls"], function(Creature, Controls) {
 
 	var creatures = [];
-	creatures[0] = new Creature(0, "Sophia", 5, 5, 5, 5, 5);
-	creatures[1] = new Creature(1, "Amanda", 7, 4, 5, 4, 6);
-	creatures[2] = new Creature(2, "Bandit", 5, 5, 5, 5, 5);
-	creatures[3] = new Creature(3, "Bandit Leader", 5, 5, 5, 5, 5);
+	creatures[0] = new Creature(0, "Sophia", 5, 5, 5, 5, 5, creatures);
+	creatures[1] = new Creature(1, "Amanda", 7, 4, 5, 4, 6, creatures);
+	creatures[2] = new Creature(2, "Bandit", 5, 5, 5, 5, 5, creatures);
+	creatures[3] = new Creature(3, "Bandit Leader", 5, 5, 5, 5, 5, creatures);
 
 	creatures.forEach(function (c) {
 		c.draw();

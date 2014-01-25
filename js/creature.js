@@ -2,22 +2,26 @@
 define(function () {
 
 	var QuickShots = function () {
+		this.verb = " fire a few rounds at ";
 		this.coolDown = 30;
 	}
 
 	var CarefulShot = function () {
+		this.verb = " carefully aim and fire at ";
 		this.coolDown = 90;
 	}
 
 	var FindCover = function () {
+		this.verb = " move back to find cover.";
 		this.coolDown = 60;
 	}
 
 	var Charge = function () {
-		this.coolDown = 60;
+		this.verb = " charge towards ";
+		this.coolDown = 30;
 	}
 
-	var Creature = function (i, name, cover, energy, aim, dodge, leadership) {
+	var Creature = function (i, name, cover, energy, aim, dodge, leadership, creatures) {
 		this.i = i;
 		this.name = name;
 		this.cover = cover;
@@ -39,6 +43,8 @@ define(function () {
 			if (!action) {
 				alert("Error: this action does not exist: " + actionCode);
 			}
+			var target = creatures[target];
+			console.log("You" + action.verb + target.name);
 			return action.coolDown;
 		};
 
