@@ -130,7 +130,7 @@ define(function () {
 
 		var runAI = function () {
 			var enemies = getEnemies();
-			if (!enemies[0].alive && !enemies[1].isAlive) return;
+			if (!enemies[0].alive && !enemies[1].alive) return;
 			c.useAction(0, randomEnemyId());
 		};
 
