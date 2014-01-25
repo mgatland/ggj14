@@ -69,7 +69,7 @@ define(function () {
 				c.maxCooldown = c.cooldown;
 				c.lastActionText = "Get them!";
 			}
-			c.loseCover(-c.maxCover); //create cover tokens
+			c.initCoverTokens(c.maxCover);
 		}
 
 		this.die = function () {
@@ -116,19 +116,32 @@ define(function () {
 			return action.needsTarget;
 		}
 
-		this.loseCover = function (num) {
-			var tokens = this.cover;
-			this.cover -= num;
-			if (this.cover < 0) this.cover = 0;
-			if (this.cover > 10) this.cover = 10;
-			while (tokens < this.cover) {
+		this.initCoverTokens = function () {
+			var tokens = 0;
+			while (tokens < this.maxCover) {
 				var iDiv = document.createElement('div');
 				iDiv.className = 'coverToken';
 				coverTokensEle.appendChild(iDiv);
 				tokens++;
 			}
+			this.cover = this.maxCover;
+		}
+
+		this.loseCover = function (num) {
+			var tokens = this.cover;
+			this.cover -= num;
+			if (this.cover < 0) this.cover = 0;
+			if (this.cover > this.maxCover) this.cover = this.maxCover;
+			while (tokens < this.cover) {
+				var tokenToToggle = getElement("coverToken.broken");
+				tokenToToggle.classList.remove("broken");
+				coverTokensEle.removeChild(tokenToToggle);
+				coverTokensEle.appendChild(tokenToToggle);
+				tokens++;
+			}
 			while (tokens > this.cover) {
-				coverTokensEle.removeChild(coverTokensEle.childNodes[0]);
+				var tokenToToggle = getElement("coverToken:not(.broken)");
+				tokenToToggle.classList.add("broken");
 				tokens--;
 			}
 		}

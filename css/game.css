@@ -206,7 +206,6 @@ p {
 
 	color: hsl(208, 50%, 40%);
 	background-color: hsl(208, 100%, 75%);
-
 	box-shadow: inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, /* inner shadow */ hsl(208, 50%, 55%) 0 .1em 3px, hsl(208, 50%, 40%) 0 .3em 1px, /* color border */ rgba(0,0,0,0.2) 0 .5em 5px;
 
 	border-top: none;
@@ -215,6 +214,13 @@ p {
 	display: inline-block;
 	position: relative;
 	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.coverToken.broken {
+	color: hsl(0, 50%, 40%);
+	background-color: hsl(0, 100%, 75%);
+	box-shadow: inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, /* inner shadow */ hsl(0, 50%, 55%) 0 .1em 3px, hsl(0, 50%, 40%) 0 .3em 1px, /* color border */ rgba(0,0,0,0.2) 0 .5em 5px;
+
 }
 
 /* key hints */

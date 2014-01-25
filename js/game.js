@@ -1,6 +1,9 @@
 "use strict";
 require(["creature", "controls", "keyboard"], function(Creature, Controls, Keyboard) {
 
+$( document ).ready( function () {
+
+
 	var keyboard = new Keyboard();
 	var creatures = [];
 	creatures[0] = new Creature(0, "Matthew", 10, 5, 5, 5, 5, creatures, false);
@@ -70,4 +73,5 @@ require(["creature", "controls", "keyboard"], function(Creature, Controls, Keybo
 			}
 		});
 	}, 1000/30);
+}); //end of jquery ready
 });
