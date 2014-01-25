@@ -5,14 +5,19 @@ define(function () {
 		var state = "";
 		var selectedAction = "";
 		var coolDown = 0;
+		var maxCoolDown = 0;
 		
 		var ele = document.querySelector(".p" + i + ".controls");
-		
+		var cooldownEle = document.querySelector(".p" + i + ".controls .cooldown");
+		cooldownEle.style.width =  "0%";
 
 		this.update = function () {
 			if (state === "wait") {
 				if (coolDown > 0) {
 					coolDown--;
+					var coolPercentage = Math.round(coolDown * 100 / maxCoolDown);
+					cooldownEle.style.width = coolPercentage + "%";
+					console.log(coolPercentage);
 				} else {
 					setState("chooseAction");
 				}
@@ -30,6 +35,7 @@ define(function () {
 			selectedAction = "";
 			setState("wait");
 			coolDown = 30;
+			maxCoolDown = coolDown;
 		}
 
 		this.cardSelected = function (num) {

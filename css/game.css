@@ -33,6 +33,21 @@
 	padding: 8px;
 }
 
+.bar {
+	width: 100px;
+	height: 32px;
+	background: white;
+	border: 1px solid black;
+	border-radius: 16px;
+	margin: 16px auto;
+}
+
+.cooldown {
+	height: 32px;
+	background: #D0F272;
+	border-radius:  16px;
+}
+
 /* Control state */
 .onChooseTarget {
 	display: none;

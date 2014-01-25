@@ -55,5 +55,5 @@ require(["creature", "controls"], function(Creature, Controls) {
 	window.setInterval(function () {
 		controls[0].update();
 		controls[1].update();
-	}, 1000/60);
+	}, 1000/30);
 });
