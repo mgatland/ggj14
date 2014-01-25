@@ -67,6 +67,7 @@ define(function () {
 			state = newState;
 			if (state === "chooseTarget") {
 				ele.classList.add("chooseTarget");
+				ele.classList.add("enabled");
 				ele.classList.remove("chooseAction");
 				ele.classList.remove("wait");
 				ele.classList.remove("dead");
@@ -75,6 +76,7 @@ define(function () {
 			}
 			if (state === "chooseAction") {
 				ele.classList.remove("chooseTarget");
+				ele.classList.remove("enabled");
 				ele.classList.add("chooseAction");
 				ele.classList.remove("wait");
 				ele.classList.remove("dead");
@@ -83,6 +85,7 @@ define(function () {
 			}
 			if (state === "wait") {
 				ele.classList.remove("chooseTarget");
+				ele.classList.remove("enabled");
 				ele.classList.remove("chooseAction");
 				ele.classList.add("wait");
 				ele.classList.remove("dead");
@@ -91,6 +94,7 @@ define(function () {
 			}
 			if (state === "dead") {
 				ele.classList.remove("chooseTarget");
+				ele.classList.remove("enabled");
 				ele.classList.remove("chooseAction");
 				ele.classList.remove("wait");
 				ele.classList.add("dead");
