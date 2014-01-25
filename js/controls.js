@@ -22,6 +22,12 @@ define(function () {
 		}
 
 		this.update = function (up, down, left, right) {
+
+			if (!creature.alive) {
+				setState("dead");
+				return;
+			}
+
 			tryKeys(up, down, left, right);
 			if (state === "wait") {
 				var cooldown = creature.cooldown;
@@ -57,11 +63,13 @@ define(function () {
 		}
 
 		var setState = function (newState) {
+			if (state === newState) return;
 			state = newState;
 			if (state === "chooseTarget") {
 				ele.classList.add("chooseTarget");
 				ele.classList.remove("chooseAction");
 				ele.classList.remove("wait");
+				ele.classList.remove("dead");
 				ele.classList.toggle("keyhints", false);
 				cardsEle.classList.toggle("keyhints" + i, true);
 			}
@@ -69,6 +77,7 @@ define(function () {
 				ele.classList.remove("chooseTarget");
 				ele.classList.add("chooseAction");
 				ele.classList.remove("wait");
+				ele.classList.remove("dead");
 				ele.classList.toggle("keyhints", true);
 				cardsEle.classList.toggle("keyhints" + i, false);
 			}
@@ -76,11 +85,19 @@ define(function () {
 				ele.classList.remove("chooseTarget");
 				ele.classList.remove("chooseAction");
 				ele.classList.add("wait");
+				ele.classList.remove("dead");
+				ele.classList.toggle("keyhints", false);
+				cardsEle.classList.toggle("keyhints" + i, false);
+			}
+			if (state === "dead") {
+				ele.classList.remove("chooseTarget");
+				ele.classList.remove("chooseAction");
+				ele.classList.remove("wait");
+				ele.classList.add("dead");
 				ele.classList.toggle("keyhints", false);
 				cardsEle.classList.toggle("keyhints" + i, false);
 			}
 		}
-
 		setState("chooseAction");
 	}
 
