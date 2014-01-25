@@ -5,7 +5,7 @@ define(function () {
 		this.name = "Shooting"
 		this.verb = " fire at ";
 		this.needsTarget = true;
-		this.cooldown = 30;
+		this.cooldown = 40;
 		this.coverDamage = 1;
 		this.isFatal = true;
 	}
@@ -14,7 +14,7 @@ define(function () {
 		this.name = "Taking Cover"
 		this.verb = " move back to find cover.";
 		this.needsTarget = false;
-		this.cooldown = 60;
+		this.cooldown = 90;
 		this.coverCost = -2;
 	}
 
@@ -22,10 +22,19 @@ define(function () {
 		this.name = "Charging"
 		this.verb = " charge forwards!";
 		this.needsTarget = false;
-		this.cooldown = 30;
+		this.cooldown = 60;
 		this.coverCost = 4;
 		this.targets = "both enemies";
 		this.coverDamage = 2;
+	}
+
+	var Protect = function () {
+		this.name = "Protect teammate";
+		this.verb = " protects a teammate.";
+		this.needsTarget = false;
+		this.cooldown = 90;
+		this.coverCost = 2;
+		this.teammateCoverCost = -1;
 	}
 
 	var Creature = function (id, name, cover, energy, aim, dodge, leadership, creatures, isAI) {
@@ -70,6 +79,13 @@ define(function () {
 			this.deadTimer = 300;
 		}
 
+		var getFriend = function () {
+			if (c.id === 0) return creatures[1];
+			if (c.id === 1) return creatures[0];
+			if (c.id === 2) return creatures[3];
+			if (c.id === 3) return creatures[2];
+		}
+
 		var randomEnemyId = function () {
 			var enemies = getEnemies();
 			if (!enemies[0].alive) return 1;
@@ -93,6 +109,7 @@ define(function () {
 		this.actions.push(new Shoot());
 		this.actions.push(new FindCover());
 		this.actions.push(new Charge());
+		this.actions.push(new Protect());
 
 		this.doesActionNeedTarget = function (actionCode) {
 			var action = this.actions[actionCode];
@@ -143,6 +160,7 @@ define(function () {
 				}
 				if (action.energyCost) this.energy -= action.energyCost;
 				if (action.coverCost) this.loseCover(action.coverCost);
+				if (action.teammateCoverCost) getFriend().loseCover(action.teammateCoverCost);
 				
 				creatures.forEach(function (c) {
 					c.draw();
