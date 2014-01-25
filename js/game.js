@@ -1,10 +1,6 @@
 "use strict";
 require(["creature", "controls"], function(Creature, Controls) {
 
-	var Action = function () {
-
-	}
-
 	var creatures = [];
 	creatures[0] = new Creature(0, "Sophia", 5, 5, 5, 5, 5);
 	creatures[1] = new Creature(1, "Amanda", 7, 4, 5, 4, 6);
@@ -16,14 +12,14 @@ require(["creature", "controls"], function(Creature, Controls) {
 	});
 
 	var controls = [];
-	controls[0] = new Controls(0);
-	controls[1] = new Controls(1);
+	controls[0] = new Controls(0, creatures[0]);
+	controls[1] = new Controls(1, creatures[1]);
 
 	var addControlsEventListener = function (i) {
 		var controlsEle = document.querySelector('.controls.p' + i);
 		controlsEle.addEventListener('click', function (event) {
 		    if (event.target.classList.contains('actionbutton')) {
-		        var action = event.target.className.replace("actionbutton", "").replace(" ", "");
+		        var action = event.target.className.replace("actionbutton", "").replace(" ", "").replace("act", "");
 		        controls[i].actionSelected(action);
 		    }
 		}, false);

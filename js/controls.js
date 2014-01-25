@@ -1,6 +1,6 @@
 "use strict";
 define(function () {
-	var Controls = function (i) {
+	var Controls = function (i, creature) {
 		this.i = i;
 		var state = "";
 		var selectedAction = "";
@@ -17,7 +17,6 @@ define(function () {
 					coolDown--;
 					var coolPercentage = Math.round(coolDown * 100 / maxCoolDown);
 					cooldownEle.style.width = coolPercentage + "%";
-					console.log(coolPercentage);
 				} else {
 					setState("chooseAction");
 				}
@@ -31,10 +30,11 @@ define(function () {
 		}
 
 		var useAction = function (action, targetNum) {
-			console.log("Action: " + action + " on target " + targetNum);
+			var coolDownTime = creature.useAction(action, targetNum);
+
 			selectedAction = "";
 			setState("wait");
-			coolDown = 30;
+			coolDown = coolDownTime;
 			maxCoolDown = coolDown;
 		}
 

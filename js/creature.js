@@ -1,5 +1,22 @@
 "use strict";
 define(function () {
+
+	var QuickShots = function () {
+		this.coolDown = 30;
+	}
+
+	var CarefulShot = function () {
+		this.coolDown = 90;
+	}
+
+	var FindCover = function () {
+		this.coolDown = 60;
+	}
+
+	var Charge = function () {
+		this.coolDown = 60;
+	}
+
 	var Creature = function (i, name, cover, energy, aim, dodge, leadership) {
 		this.i = i;
 		this.name = name;
@@ -13,6 +30,17 @@ define(function () {
 
 		this.actions = [];
 
+		this.actions[0] = new QuickShots();
+		this.actions[1] = new CarefulShot();
+		this.actions[2] = new FindCover();
+		this.actions[3] = new Charge();
+		this.useAction = function(actionCode, target) {
+			var action = this.actions[actionCode];
+			if (!action) {
+				alert("Error: this action does not exist: " + actionCode);
+			}
+			return action.coolDown;
+		};
 
 		this.draw = function () {
 			getElement("name").innerHTML = this.name;
