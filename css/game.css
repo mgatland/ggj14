@@ -1,3 +1,9 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans:bold);
+
+body {
+	font: 20px/1em 'Droid Sans', sans-serif;
+}
+
 .cards {
 	width: 530px;
 	height: 720px;
@@ -57,7 +63,7 @@
 }
 
 .controls {
-	width: 140px;
+	width: 160px;
 	height: 720px;
 	display: inline-block;
 	vertical-align:top;
@@ -73,7 +79,7 @@
 
 	text-shadow: 			rgba(255,255,255,.5) 0 1px 0;
 
-	width: 100px;
+	width: 120px;
 	height: 32px;
 	margin: 16px auto;
 	font-size: 20px;
@@ -149,6 +155,11 @@
 	position: absolute;
 	margin-top: 6px;
 	text-align: center;
+}
+
+.instructions {
+	font-size: 28px;
+	margin-top: 18px;
 }
 
 /* cover tokens*/
@@ -252,26 +263,11 @@
 }
 
 /* Control panel state */
-.onChooseTarget {
+.onChooseTarget, .onChooseAction, .onWait {
 	display: none;
-	font-size: 32px;
 }
-.chooseTarget > .onChooseTarget {
-	display: block;
-}
-
-.onWait {
-	display: none;
-	font-size: 32px;
-}
-.wait > .onWait {
-	display: block;
-}
-
-.onChooseAction {
-	display: none;
-	font-size: 32px;
-}
-.chooseAction > .onChooseAction {
+.chooseTarget .onChooseTarget, 
+.wait .onWait, 
+.chooseAction .onChooseAction {
 	display: block;
 }
