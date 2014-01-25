@@ -62,6 +62,13 @@ body {
 	-transform: rotateY(-180deg);
 }
 
+.portrait {
+	width: 140px;
+	height: 140px;
+	border: 2px solid white;
+	margin: 8px;
+}
+
 .controls {
 	width: 160px;
 	height: 720px;
@@ -165,7 +172,7 @@ body {
 /* cover tokens*/
 
 .coverTokens {
-	min-height: 64px; /* will keep two rows even if all tokens are removed*/
+	min-height: 68px; /* will keep two rows even if all tokens are removed*/
 }
 
 .coverToken {

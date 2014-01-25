@@ -3,7 +3,7 @@ require(["creature", "controls", "keyboard"], function(Creature, Controls, Keybo
 
 	var keyboard = new Keyboard();
 	var creatures = [];
-	creatures[0] = new Creature(0, "Sophia", 10, 5, 5, 5, 5, creatures, false);
+	creatures[0] = new Creature(0, "Matthew", 10, 5, 5, 5, 5, creatures, false);
 	creatures[1] = new Creature(1, "Amanda", 10, 4, 5, 4, 6, creatures, false);
 	creatures[2] = new Creature(2, "Bandit", 5, 5, 5, 5, 5, creatures, true);
 	creatures[3] = new Creature(3, "Bandit Leader", 5, 5, 5, 5, 5, creatures, true);
