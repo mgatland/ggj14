@@ -20,8 +20,8 @@ body {
 	height: 720px;
 	display: inline-block;
 	vertical-align:top;
-	-webkit-perspective:400px;
-	-moz-perspective:400px;
+	-webkit-perspective:900px;
+	-moz-perspective:900px;
 }
 
 .card {
@@ -54,14 +54,13 @@ body {
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
 
-	transition: 1.6s ease-in;
-	transform-style: preserve-3d;
-	-webkit-transform-style: preserve-3d;
+	transition: 1.6s; /*ease-in*/
+	/*transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;*/
 	-moz-transition-property: -moz-transform;
 	-webkit-transition-property: -webkit-transform;
 	-o-transition-property: -o-transform;
 	transition-property: transform;
-
 }
 
 .card.inDanger .front {
@@ -69,7 +68,7 @@ body {
 }
 
 .card.dead .front {
-		background-image:         linear-gradient(to bottom, #aaa, #777);
+	background-image: linear-gradient(to bottom, #aaa, #777);
 }
 
 /* flip the pane when hovered */
@@ -78,7 +77,6 @@ body {
 	-moz-transform: rotateY(180deg);
 	-transform: rotateY(180deg);
 }
-
 .card.dead .back {
 	-moz-transform: rotateY(0deg);
 	-webkit-transform: rotateY(0deg);
@@ -104,7 +102,7 @@ body {
 	width: 140px;
 	height: 140px;
 	left: 0;
-	top: 0;
+	top: 0;	
 }
 
 .controls {
