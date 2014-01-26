@@ -3,7 +3,7 @@ define(function () {
 
 /* line drawing hacks */
 
-var lines = document.querySelector(".lines"); 
+var lines = document.querySelector(".lines");
 
 function getCenter( el ) { // return element top, left, width, height
     var _x = 0;
@@ -58,7 +58,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.name = "Taking Cover"
 		this.verb = " move back to find cover.";
 		this.needsTarget = false;
-		this.cooldown = 90;
+		this.cooldown = 90; //Must be slower than 2 shots
 		this.coverCost = -2;
 	}
 
@@ -66,7 +66,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.name = "Charging"
 		this.verb = " charge forwards!";
 		this.needsTarget = false;
-		this.cooldown = 60;
+		this.cooldown = 60; //Should be quicker than 2 shots?
 		this.coverCost = 4;
 		this.targets = "both enemies";
 		this.coverDamage = 2;
@@ -76,9 +76,9 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.name = "Protect teammate";
 		this.verb = " protects a teammate.";
 		this.needsTarget = false;
-		this.cooldown = 90;
+		this.cooldown = 40;
 		this.coverCost = 2;
-		this.teammateCoverCost = -1;
+		this.teammateCoverCost = -2;
 	}
 
 	var Creature = function (id, name, pic, greeting, cover, creatures, isAI) {
@@ -195,7 +195,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			}
 
 			var inDanger = (this.cover === 0);
-			
+
 			getElement().classList.toggle("inDanger", inDanger);
 
 			return effects;
@@ -264,7 +264,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				if (action.teammateCoverCost) {
 					friendTokens = friendTokens.concat(getFriend().loseCover(action.teammateCoverCost));
 				}
-				
+
 				creatures.forEach(function (c) {
 					c.draw();
 				})
@@ -322,7 +322,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			if (ele) {
 				return document.querySelector(".card.p" + id + " ." + ele);
 			} else {
-				return document.querySelector(".card.p" + id); 
+				return document.querySelector(".card.p" + id);
 			}
 		}
 		init();
