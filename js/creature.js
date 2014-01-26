@@ -106,6 +106,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			cooldownLabelEle = getElement("bar .label");
 			coverTokensEle = getElement("coverTokens");
 			getElement("portrait").src = "arts/" + pic;
+			getElement("overlay").src = "arts/blank.png";
 			if (c.isAI) {
 				c.cooldown = Math.floor(Math.random() * 30) + 80;
 			} else {
@@ -120,6 +121,8 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			if (!this.alive) return;
 			this.alive = false;
 			console.log(this.name + " died.");
+			getElement("overlay").src = "arts/dead.png";
+			updateDangerStatus();
 			this.deadTimer = 300;
 		}
 
@@ -170,7 +173,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				tokens++;
 			}
 			this.cover = this.maxCover;
-			getElement().classList.toggle("inDanger", false);
+			updateDangerStatus();
 		}
 
 		this.loseCover = function (num) {
@@ -193,12 +196,13 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				tokens--;
 				effects.push(getCenter(tokenToToggle));
 			}
-
-			var inDanger = (this.cover === 0);
-
-			getElement().classList.toggle("inDanger", inDanger);
-
+			updateDangerStatus();
 			return effects;
+		}
+
+		var updateDangerStatus = function () {
+			var inDanger = (c.cover === 0 && c.alive === true);
+			getElement().classList.toggle("inDanger", inDanger);
 		}
 
 		var getAttackColor = function () {

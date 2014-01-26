@@ -21,7 +21,7 @@ body {
 	display: inline-block;
 	vertical-align:top;
 	-webkit-perspective:400px;
-	-moz-perspective:100px;
+	-moz-perspective:400px;
 }
 
 .card {
@@ -54,12 +54,22 @@ body {
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
 
-	transition: 1.6s;
+	transition: 1.6s ease-in;
 	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	-moz-transition-property: -moz-transform;
+	-webkit-transition-property: -webkit-transform;
+	-o-transition-property: -o-transform;
+	transition-property: transform;
+
 }
 
 .card.inDanger .front {
 		background-image:         linear-gradient(to bottom, #fdd, #daa);
+}
+
+.card.dead .front {
+		background-image:         linear-gradient(to bottom, #aaa, #777);
 }
 
 /* flip the pane when hovered */
@@ -68,6 +78,7 @@ body {
 	-moz-transform: rotateY(180deg);
 	-transform: rotateY(180deg);
 }
+
 .card.dead .back {
 	-moz-transform: rotateY(0deg);
 	-webkit-transform: rotateY(0deg);
@@ -80,11 +91,20 @@ body {
 	-transform: rotateY(-180deg);
 }
 
-.portrait {
+.image {
 	width: 140px;
 	height: 140px;
 	border: 2px solid white;
-	margin: 8px;
+	margin: 8px auto;
+	position: relative;
+}
+
+.portrait, .overlay {
+	position: absolute;
+	width: 140px;
+	height: 140px;
+	left: 0;
+	top: 0;
 }
 
 .controls {
