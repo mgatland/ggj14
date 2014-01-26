@@ -6,16 +6,16 @@ $( document ).ready( function () {
 
 	var makeEnemy = function(slot, type) {
 		if (type === undefined) type = Math.floor(Math.random()*4);
-		if (type === 0) return new Creature(slot, "Dopnot", "dopnot.png", 6, 5, 5, 5, 5, creatures, true);
-		if (type === 1) return new Creature(slot, "Gobnit", "gobnit.png", 3, 5, 5, 5, 5, creatures, true);
-		if (type === 2) return new Creature(slot, "Weewit", "weewit.png", 4, 5, 5, 5, 5, creatures, true);
-		return new Creature(slot, "Leepig", "leepig.png", 5, 5, 5, 5, 5, creatures, true);
+		if (type === 0) return new Creature(slot, "Dopnot", "dopnot.png", 6, creatures, true);
+		if (type === 1) return new Creature(slot, "Gobnit", "gobnit.png", 3, creatures, true);
+		if (type === 2) return new Creature(slot, "Weewit", "weewit.png", 4, creatures, true);
+		return new Creature(slot, "Leepig", "leepig.png", 5, creatures, true);
 	}
 
 	var keyboard = new Keyboard();
 	var creatures = [];
-	creatures[0] = new Creature(0, "Riley", "warrior.png", 10, 5, 5, 5, 5, creatures, false);
-	creatures[1] = new Creature(1, "Brooklyn", "missionary.png", 10, 4, 5, 4, 6, creatures, false);
+	creatures[0] = new Creature(0, "Riley", "warrior.png", 10, creatures, false);
+	creatures[1] = new Creature(1, "Brooklyn", "missionary.png", 10, creatures, false);
 	creatures[2] = makeEnemy(2);
 	creatures[3] = makeEnemy(3);
 

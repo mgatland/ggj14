@@ -81,17 +81,14 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.teammateCoverCost = -1;
 	}
 
-	var Creature = function (id, name, pic, cover, energy, aim, dodge, leadership, creatures, isAI) {
+	var Creature = function (id, name, pic, cover, creatures, isAI) {
 		var c = this; //for private methods
 		this.id = id;
 		this.name = name;
 		this.cover = 0;
 		this.maxCover = cover;
-		this.energy = energy;
-		this.maxEnergy = energy;
-		this.aim = aim;
-		this.dodge = dodge;
-		this.leadership = leadership;
+		this.energy = 1;
+		this.maxEnergy = 1;
 		this.isAI = isAI ? true : false;
 
 		this.alive = true;
@@ -316,11 +313,6 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 
 		this.draw = function () {
 			getElement("name").innerHTML = this.name;
-			getElement("cover").innerHTML = "Cover: " + this.cover + "/" + this.maxCover;
-			getElement("energy").innerHTML = "Energy: " + this.energy + "/" + this.maxEnergy;
-			getElement("aim").innerHTML = "Aim: " + this.aim;
-			getElement("dodge").innerHTML = "Dodge: " + this.dodge;
-			getElement("leadership").innerHTML = "Leadership: " + this.leadership;
 			getElement().classList.toggle("dead", !this.alive);
 		}
 
