@@ -4,6 +4,17 @@ body {
 	font: 20px/1em 'Droid Sans', sans-serif;
 }
 
+.lines {
+	pointer-events: none;
+}
+
+.line {
+	padding:0px;
+	margin:0px;
+	line-height:1px;
+	position:absolute;
+}
+
 .cards {
 	width: 530px;
 	height: 720px;

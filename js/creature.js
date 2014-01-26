@@ -1,6 +1,51 @@
 "use strict";
 define(function () {
 
+/* line drawing hacks */
+
+var lines = document.querySelector(".lines"); 
+
+function getOffset( el ) { // return element top, left, width, height
+    var _x = 0;
+    var _y = 0;
+    var _w = el.offsetWidth|0;
+    var _h = el.offsetHeight|0;
+    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+    }
+    return { top: _y, left: _x, width: _w, height: _h };
+}
+
+function connect(div1, div2, color, thickness) { // draw a line connecting elements
+    var off1 = getOffset(div1);
+    var off2 = getOffset(div2);
+    // center
+    var x1 = off1.left + off1.width / 2;
+    var y1 = off1.top + off1.height / 2;
+    // center
+    var x2 = off2.left + off2.width / 2;
+    var y2 = off2.top + off2.height / 2;
+    // distance
+    var length = Math.sqrt(((x2-x1) * (x2-x1)) + ((y2-y1) * (y2-y1)));
+    // center
+    var cx = ((x1 + x2) / 2) - (length / 2);
+    var cy = ((y1 + y2) / 2) - (thickness / 2);
+    // angle
+    var angle = Math.atan2((y1-y2),(x1-x2))*(180/Math.PI);
+
+    var iDiv = document.createElement('div');
+	iDiv.className = 'line';
+	iDiv.style.cssText = "height:" + thickness + "px; background-color:" + color + "; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);"
+	lines.appendChild(iDiv);
+	setTimeout(function () {
+		lines.removeChild(iDiv);
+	}, 500);
+}
+
+//////
+
 	var Shoot = function () {
 		this.name = "Shooting"
 		this.verb = " fire at ";
@@ -128,6 +173,7 @@ define(function () {
 		}
 
 		this.loseCover = function (num) {
+			var tokensThatChangedEles = [];
 			var tokens = this.cover;
 			this.cover -= num;
 			if (this.cover < 0) this.cover = 0;
@@ -138,16 +184,21 @@ define(function () {
 				coverTokensEle.removeChild(tokenToToggle);
 				coverTokensEle.appendChild(tokenToToggle);
 				tokens++;
+				tokensThatChangedEles.push(tokenToToggle);
 			}
 			while (tokens > this.cover) {
 				var tokenToToggle = getElement("coverToken:not(.broken)");
 				tokenToToggle.classList.add("broken");
 				tokens--;
+				tokensThatChangedEles.push(tokenToToggle);
 			}
+			return tokensThatChangedEles;
 		}
 
 		this.useAction = function(actionCode, targetCode) {
 			var action = this.actions[actionCode];
+			var enemyTokens = [];
+			var friendTokens = [];
 			if (!action) {
 				alert("Error: this action does not exist: " + actionCode);
 				return;
@@ -163,17 +214,23 @@ define(function () {
 					if (action.targets === "both enemies") {
 						getEnemies().forEach(function (target) {
 							if (action.isFatal && target.cover <= 0) target.die();
-							if (action.coverDamage) target.loseCover(action.coverDamage);
+							if (action.coverDamage) {
+								enemyTokens = enemyTokens.concat(target.loseCover(action.coverDamage));
+							}
 						});
 					}
 				} else {
 					if (action.isFatal && target.cover <= 0) target.die();
-					if (action.coverDamage) target.loseCover(action.coverDamage);
+					if (action.coverDamage) {
+						enemyTokens = enemyTokens.concat(target.loseCover(action.coverDamage));
+					}
 					console.log("You" + action.verb + target.name);
 				}
 				if (action.energyCost) this.energy -= action.energyCost;
 				if (action.coverCost) this.loseCover(action.coverCost);
-				if (action.teammateCoverCost) getFriend().loseCover(action.teammateCoverCost);
+				if (action.teammateCoverCost) {
+					friendTokens = friendTokens.concat(getFriend().loseCover(action.teammateCoverCost));
+				}
 				
 				creatures.forEach(function (c) {
 					c.draw();
@@ -182,6 +239,21 @@ define(function () {
 				if (this.isAI) this.maxCooldown *= 2;
 				this.cooldown = this.maxCooldown;
 				this.lastActionText = action.name;
+
+				
+				var color = "";
+				if (this.isAI) {
+					color = "rgba(200,100,100,0.4)";
+				} else {
+					color = "rgba(100,100,200,0.4)";
+				}
+				enemyTokens.forEach(function (token) {
+					var line = connect(token, getElement("bar"), color, 8);
+				});
+				friendTokens.forEach(function (token) {
+					var line = connect(token, getElement("bar"), color, 16);
+				});
+
 				return;
 			} else {
 				console.log("Not enough energy to do that.");
