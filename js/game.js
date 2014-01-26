@@ -14,7 +14,7 @@ $( document ).ready( function () {
 
 	var keyboard = new Keyboard();
 	var creatures = [];
-	creatures[0] = new Creature(0, "Riley", "warrior.png", "'Let's go!'", 10, creatures, false);
+	creatures[0] = new Creature(0, "Rylie", "warrior.png", "'Let's go!'", 10, creatures, false);
 	creatures[1] = new Creature(1, "Brooklyn", "missionary.png", "'I sense trouble.'", 10, creatures, false);
 	creatures[2] = makeEnemy(2);
 	creatures[3] = makeEnemy(3);
