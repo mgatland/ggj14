@@ -162,6 +162,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		}
 
 		this.initCoverTokens = function () {
+			coverTokensEle.innerHTML = ""; //clear tokens from a previous character
 			var tokens = 0;
 			while (tokens < this.maxCover) {
 				var iDiv = document.createElement('div');
