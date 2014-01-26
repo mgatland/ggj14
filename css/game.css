@@ -20,8 +20,8 @@ body {
 	height: 720px;
 	display: inline-block;
 	vertical-align:top;
-	-webkit-perspective:900px;
-	-moz-perspective:900px;
+	-webkit-perspective:2000px;
+	-moz-perspective:2000px;
 }
 
 .card {
