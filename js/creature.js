@@ -200,6 +200,18 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 			return tokensThatChangedEles;
 		}
 
+		var hurtEnemy = function (target, isFatal, coverDamage, vfxPoints) {
+			if (isFatal && target.cover <= 0) {
+				target.die();
+			}
+			if (coverDamage) {
+				var newPoints = target.loseCover(coverDamage);
+			}
+			while (newPoints.length > 0) {
+				vfxPoints.push(newPoints.pop());
+			}
+		}
+
 		this.useAction = function(actionCode, targetCode) {
 			var action = this.actions[actionCode];
 			var enemyTokens = [];
@@ -218,17 +230,11 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 					console.log("You" + action.verb);
 					if (action.targets === "both enemies") {
 						getEnemies().forEach(function (target) {
-							if (action.isFatal && target.cover <= 0) target.die();
-							if (action.coverDamage) {
-								enemyTokens = enemyTokens.concat(target.loseCover(action.coverDamage));
-							}
+							hurtEnemy(target, action.isFatal, action.coverDamage, enemyTokens);
 						});
 					}
 				} else {
-					if (action.isFatal && target.cover <= 0) target.die();
-					if (action.coverDamage) {
-						enemyTokens = enemyTokens.concat(target.loseCover(action.coverDamage));
-					}
+					hurtEnemy(target, action.isFatal, action.coverDamage, enemyTokens);
 					console.log("You" + action.verb + target.name);
 				}
 				if (action.energyCost) this.energy -= action.energyCost;
