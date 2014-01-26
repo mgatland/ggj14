@@ -192,6 +192,11 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 				tokens--;
 				tokensThatChangedEles.push(tokenToToggle);
 			}
+
+			var inDanger = (this.cover === 0);
+			
+			getElement().classList.toggle("inDanger", inDanger);
+
 			return tokensThatChangedEles;
 		}
 

@@ -58,6 +58,10 @@ body {
 	transform-style: preserve-3d;
 }
 
+.card.inDanger .front {
+		background-image:         linear-gradient(to bottom, #fdd, #daa);
+}
+
 /* flip the pane when hovered */
 .card.dead .front {
 	-webkit-transform: rotateY(180deg);
