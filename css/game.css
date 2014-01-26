@@ -239,7 +239,12 @@ p {
 	color: hsl(0, 50%, 40%);
 	background-color: hsl(0, 100%, 75%);
 	box-shadow: inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, /* inner shadow */ hsl(0, 50%, 55%) 0 .1em 3px, hsl(0, 50%, 40%) 0 .3em 1px, /* color border */ rgba(0,0,0,0.2) 0 .5em 5px;
+}
 
+.guide .coverToken {
+	width: 2px;
+	height: 2px;
+	font-size: 14px;
 }
 
 /* key hints */
