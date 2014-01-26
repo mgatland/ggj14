@@ -5,7 +5,7 @@ define(function () {
 
 var lines = document.querySelector(".lines"); 
 
-function getOffset( el ) { // return element top, left, width, height
+function getCenter( el ) { // return element top, left, width, height
     var _x = 0;
     var _y = 0;
     var _w = el.offsetWidth|0;
@@ -15,18 +15,17 @@ function getOffset( el ) { // return element top, left, width, height
         _y += el.offsetTop - el.scrollTop;
         el = el.offsetParent;
     }
-    return { top: _y, left: _x, width: _w, height: _h };
+    //return { top: _y, left: _x, width: _w, height: _h };
+    return {x: _x + _w / 2, y: _y + _h / 2};
 }
 
-function connect(div1, div2, color, thickness) { // draw a line connecting elements
-    var off1 = getOffset(div1);
-    var off2 = getOffset(div2);
+function connect(start, end, color, thickness, duration) { // draw a line connecting elements
     // center
-    var x1 = off1.left + off1.width / 2;
-    var y1 = off1.top + off1.height / 2;
+    var x1 = start.x;
+    var y1 = start.y;
     // center
-    var x2 = off2.left + off2.width / 2;
-    var y2 = off2.top + off2.height / 2;
+    var x2 = end.x;
+    var y2 = end.y;
     // distance
     var length = Math.sqrt(((x2-x1) * (x2-x1)) + ((y2-y1) * (y2-y1)));
     // center
@@ -41,7 +40,7 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 	lines.appendChild(iDiv);
 	setTimeout(function () {
 		lines.removeChild(iDiv);
-	}, 500);
+	}, duration);
 }
 
 //////
@@ -170,10 +169,11 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 				tokens++;
 			}
 			this.cover = this.maxCover;
+			getElement().classList.toggle("inDanger", false);
 		}
 
 		this.loseCover = function (num) {
-			var tokensThatChangedEles = [];
+			var effects = [];
 			var tokens = this.cover;
 			this.cover -= num;
 			if (this.cover < 0) this.cover = 0;
@@ -184,37 +184,58 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 				coverTokensEle.removeChild(tokenToToggle);
 				coverTokensEle.appendChild(tokenToToggle);
 				tokens++;
-				tokensThatChangedEles.push(tokenToToggle);
+				effects.push(getCenter(tokenToToggle));
 			}
 			while (tokens > this.cover) {
 				var tokenToToggle = getElement("coverToken:not(.broken)");
 				tokenToToggle.classList.add("broken");
 				tokens--;
-				tokensThatChangedEles.push(tokenToToggle);
+				effects.push(getCenter(tokenToToggle));
 			}
 
 			var inDanger = (this.cover === 0);
 			
 			getElement().classList.toggle("inDanger", inDanger);
 
-			return tokensThatChangedEles;
+			return effects;
 		}
 
-		var hurtEnemy = function (target, isFatal, coverDamage, vfxPoints) {
+		var getAttackColor = function () {
+			if (c.isAI) {
+				return "rgba(200,100,100,0.4)";
+			} else {
+				return "rgba(100,100,200,0.4)";
+			}
+		}
+
+		var hurtEnemy = function (target, isFatal, coverDamage, origin) {
+
+			var color = getAttackColor();
+
 			if (isFatal && target.cover <= 0) {
 				target.die();
+				connect(target.getPortraitPosition(), origin, color, 13, 1000);
 			}
 			if (coverDamage) {
 				var newPoints = target.loseCover(coverDamage);
 			}
-			while (newPoints.length > 0) {
-				vfxPoints.push(newPoints.pop());
-			}
+
+			newPoints.forEach(function (point) {
+				connect(point, origin, color, 8, 500);
+			});
+		}
+
+		var getAttackOrigin = function () {
+			return getCenter(getElement("bar"));
+		}
+
+		this.getPortraitPosition = function () {
+			return getCenter(getElement("portrait"));
 		}
 
 		this.useAction = function(actionCode, targetCode) {
 			var action = this.actions[actionCode];
-			var enemyTokens = [];
+			var origin = getAttackOrigin();
 			var friendTokens = [];
 			if (!action) {
 				alert("Error: this action does not exist: " + actionCode);
@@ -230,11 +251,11 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 					console.log("You" + action.verb);
 					if (action.targets === "both enemies") {
 						getEnemies().forEach(function (target) {
-							hurtEnemy(target, action.isFatal, action.coverDamage, enemyTokens);
+							hurtEnemy(target, action.isFatal, action.coverDamage, origin);
 						});
 					}
 				} else {
-					hurtEnemy(target, action.isFatal, action.coverDamage, enemyTokens);
+					hurtEnemy(target, action.isFatal, action.coverDamage, origin);
 					console.log("You" + action.verb + target.name);
 				}
 				if (action.energyCost) this.energy -= action.energyCost;
@@ -251,18 +272,9 @@ function connect(div1, div2, color, thickness) { // draw a line connecting eleme
 				this.cooldown = this.maxCooldown;
 				this.lastActionText = action.name;
 
-				
-				var color = "";
-				if (this.isAI) {
-					color = "rgba(200,100,100,0.4)";
-				} else {
-					color = "rgba(100,100,200,0.4)";
-				}
-				enemyTokens.forEach(function (token) {
-					var line = connect(token, getElement("bar"), color, 8);
-				});
+				var color = getAttackColor();
 				friendTokens.forEach(function (token) {
-					var line = connect(token, getElement("bar"), color, 16);
+					connect(token, origin, color, 16, 500);
 				});
 
 				return;
