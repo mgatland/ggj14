@@ -81,7 +81,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.teammateCoverCost = -1;
 	}
 
-	var Creature = function (id, name, cover, energy, aim, dodge, leadership, creatures, isAI) {
+	var Creature = function (id, name, pic, cover, energy, aim, dodge, leadership, creatures, isAI) {
 		var c = this; //for private methods
 		this.id = id;
 		this.name = name;
@@ -108,6 +108,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			cooldownEle = getElement("cooldown");
 			cooldownLabelEle = getElement("bar .label");
 			coverTokensEle = getElement("coverTokens");
+			getElement("portrait").src = "arts/" + pic;
 			if (c.isAI) {
 				c.cooldown = Math.floor(Math.random() * 30) + 80;
 				c.maxCooldown = c.cooldown;
