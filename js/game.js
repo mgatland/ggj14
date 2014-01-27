@@ -17,6 +17,11 @@ var startNeptune9 = function(event) {
 	var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, isAI:true};
 	var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 4, isAI:true};
 
+	if (DEBUG.oneHit) {
+		rylie.cover = 1;
+		brooklyn.cover = 1;
+	}
+
 	var makeEnemy = function(slot, type) {
 		if (type === undefined) type = Math.floor(Math.random()*4);
 		if (type === 0) return new Creature(slot, dopnot, creatures);
@@ -92,17 +97,22 @@ var startNeptune9 = function(event) {
 		cardSelected(num);
 	}, false);
 
-	var popoverShown = false;
-	var showPopover = function () {
-		if (popoverShown) return;
-		popoverShown = true;
-		document.querySelector('.popover').classList.toggle("hidden", false);
+
+	var popoversShown = {};
+	var showPopover = function (name) {
+		if (isPopoverShown(name) === true) return;
+		popoversShown[name] = true;
+		document.querySelector('.popover.' + name).classList.toggle("hidden", false);
 	}
 
-	var hidePopover = function () {
-		if (!popoverShown) return;
-		popoverShown = false;
-		document.querySelector('.popover').classList.toggle("hidden", true);
+	var hidePopover = function (name) {
+		if (isPopoverShown(name) === false) return;
+		delete popoversShown[name];
+		document.querySelector('.popover.' + name).classList.toggle("hidden", true);
+	}
+
+	var isPopoverShown = function (name) {
+		return popoversShown[name] !== undefined;
 	}
 
 	window.setInterval(function () {
@@ -129,12 +139,12 @@ var startNeptune9 = function(event) {
 		if (creatures[0].alive === false && creatures[1].alive === false) {
 			popoverDelayTimer++;
 			if (popoverDelayTimer === 60) {
-				showPopover();
+				showPopover("restart");
 			}
 		}
 
-		if (enter && popoverShown === true) {
-			hidePopover();
+		if (enter && isPopoverShown("restart") === true) {
+			hidePopover("restart");
 			restartGame();
 		}
 	}, 1000/30);
