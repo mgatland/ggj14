@@ -73,7 +73,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 	}
 
 	var Protect = function () {
-		this.name = "Protect teammate";
+		this.name = "Protect $teammate";
 		this.verb = " protects a teammate.";
 		this.needsTarget = false;
 		this.cooldown = 40;
@@ -275,7 +275,12 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				this.maxCooldown = action.cooldown;
 				if (this.isAI) this.maxCooldown *= 2;
 				this.cooldown = this.maxCooldown;
+
 				this.lastActionText = action.name;
+
+				if (action.name.indexOf("$teammate") !== -1) {
+					this.lastActionText = this.lastActionText.replace("$teammate", getFriend().name);
+				}
 
 				var color = getAttackColor();
 				friendTokens.forEach(function (token) {
