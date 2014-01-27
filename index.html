@@ -2,10 +2,11 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/game.css">
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script data-main="js/game" src="js/require.js"></script>
+	{% include analytics.html %}
 </head>
 <body>
+<div class="game">
 	<div class="controls p0">
 		<div class="instructions">
 			<div class="onChooseAction">Choose an action</div>
@@ -89,5 +90,6 @@
 	</div>
 	<div class="lines"></div>
 	<div class="preload-images" style="display:none;"><img src="arts/dead.png"></div>
+</div>
 </body>
 </html>

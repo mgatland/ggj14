@@ -1,8 +1,7 @@
 "use strict";
 require(["creature", "controls", "keyboard"], function(Creature, Controls, Keyboard) {
 
-$( document ).ready( function () {
-
+var startNeptune9 = function(event) {
 
 	var makeEnemy = function(slot, type) {
 		if (type === undefined) type = Math.floor(Math.random()*4);
@@ -122,5 +121,12 @@ $( document ).ready( function () {
 	}
 
 	addRestartEventListener();
-}); //end of jquery ready
+};
+if (document.readyState !== "loading") {
+	startNeptune9();
+} else {
+	document.addEventListener("DOMContentLoaded", function(event) {
+		startNeptune9();
+	});
+}
 });
