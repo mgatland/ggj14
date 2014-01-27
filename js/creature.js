@@ -85,15 +85,17 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.teammateCoverCost = -2;
 	}
 
-	var Creature = function (id, name, pic, greeting, cover, creatures, isAI) {
+	var Creature = function (id, data, creatures) {
 		var c = this; //for private methods
 		this.id = id;
-		this.name = name;
+		this.name = data.name;
 		this.cover = 0;
-		this.maxCover = cover;
+		this.maxCover = data.cover;
 		this.energy = 1;
 		this.maxEnergy = 1;
-		this.isAI = isAI ? true : false;
+		this.isAI = data.isAI ? true : false;
+		this.greeting = data.greeting;
+		var pic = data.pic;
 
 		this.instructionText = ""; //Set by Controls
 
@@ -121,7 +123,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				getElement().classList.remove("enemy");
 			}
 			c.maxCooldown = c.cooldown;
-			c.lastActionText = greeting;
+			c.lastActionText = c.greeting;
 			c.initCoverTokens(c.maxCover);
 
 		}

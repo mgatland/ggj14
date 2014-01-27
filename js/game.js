@@ -10,12 +10,19 @@ var startNeptune9 = function(event) {
 		}
 	}
 
+	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false};
+	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false};
+	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, isAI:true};
+	var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 3, isAI:true};
+	var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, isAI:true};
+	var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 4, isAI:true};
+
 	var makeEnemy = function(slot, type) {
 		if (type === undefined) type = Math.floor(Math.random()*4);
-		if (type === 0) return new Creature(slot, "Dopnot", "dopnot.png", "'Grr! Zeek!'", 6, creatures, true);
-		if (type === 1) return new Creature(slot, "Gobnit", "gobnit.png", "'Garble garble'", 3, creatures, true);
-		if (type === 2) return new Creature(slot, "Weewit", "weewit.png", "'Target assigned.'", 4, creatures, true);
-		return new Creature(slot, "Leepig", "leepig.png", "'Leave me alone!'", 5, creatures, true);
+		if (type === 0) return new Creature(slot, dopnot, creatures);
+		if (type === 1) return new Creature(slot, gobnit, creatures);
+		if (type === 2) return new Creature(slot, weewit, creatures);
+		return new Creature(slot, leepig, creatures);
 	}
 
 	var keyboard = new Keyboard();
@@ -27,8 +34,8 @@ var startNeptune9 = function(event) {
 
 	var restartGame = function () {
 		popoverDelayTimer = 0;
-		creatures[0] = new Creature(0, "Rylie", "warrior.png", "'Let's go!'", DEBUG.oneHit ? 1 : 10, creatures, false);
-		creatures[1] = new Creature(1, "Brooklyn", "missionary.png", "'I sense trouble.'", DEBUG.oneHit ? 1 : 10, creatures, false);
+		creatures[0] = new Creature(0, rylie, creatures);
+		creatures[1] = new Creature(1, brooklyn, creatures);
 		creatures[2] = makeEnemy(2);
 		creatures[3] = makeEnemy(3);
 
