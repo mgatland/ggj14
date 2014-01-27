@@ -130,6 +130,10 @@
 	background: grey;
 }
 
+.controls.aiControlled > * {
+	display: none;
+}
+
 .actionbutton {
 
 	text-shadow: 			rgba(255,255,255,.5) 0 1px 0;
@@ -229,7 +233,7 @@
 	top: 220px;
 	left: 170px;
 	width: 570px;
-	height: 100px;
+	height: auto;
 	z-index: 20;
 	opacity: 1;
 }
@@ -329,7 +333,7 @@ p {
 
 	position: absolute;
 	display: none;
-	z-index: 100;
+	z-index: 10;
 }
 
 .controls .keyhint {
@@ -373,12 +377,12 @@ p {
 	display: block;
 }
 
-.controls.p0.chooseAction {
+.controls.p0.chooseAction, .controls.p0.aiControlled {
 	background: rgba(94, 233, 59, 0.2);
 	box-shadow: 0px -2px 5px rgba(94, 233, 59, 0.2);
 }
 
-.controls.p1.chooseAction {
+.controls.p1.chooseAction, .controls.p1.aiControlled {
 	background: hsla(208, 100%, 75%, 0.2);
 	box-shadow: 0px -2px 5px hsla(208, 100%, 75%, 0.2);
 }

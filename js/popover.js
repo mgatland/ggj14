@@ -2,18 +2,20 @@
 define(function () {
 
 	var Popover = function (name) {	
-		var isShown = false;
+
+		var ele = document.querySelector('.popover.' + name);
+		var isShown = !ele.classList.contains("hidden");
 
 		this.show = function () {
 			if (isShown) return;
 			isShown = true;
-			document.querySelector('.popover.' + name).classList.toggle("hidden", false);
+			ele.classList.toggle("hidden", false);
 		}
 
 		this.hide = function () {
 			if (isShown === false) return;
 			isShown = false;
-			document.querySelector('.popover.' + name).classList.toggle("hidden", true);
+			ele.classList.toggle("hidden", true);
 		}
 
 		this.isShown = function () {

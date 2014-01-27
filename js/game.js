@@ -3,6 +3,7 @@ require(["creature", "controls", "keyboard", "popover"], function(Creature, Cont
 
 var startNeptune9 = function(event) {
 
+	var isGameRunning = false;
 	var DEBUG = {};
 	if (location.search) {
 		if (location.search.indexOf("1hit") >= 0) {
@@ -36,10 +37,23 @@ var startNeptune9 = function(event) {
 	controls[0] = new Controls(0);
 	controls[1] = new Controls(1);
 	var restartPopover = new Popover("restart");
+	var startGamePopover = new Popover("startgame");
 	var popoverDelayTimer = 0;
 
 	var restartGame = function () {
+		restartPopover.hide();
+		startGamePopover.show();
+	}
+
+	var startGame = function (noOfPlayers) {
+		startGamePopover.hide();
 		popoverDelayTimer = 0;
+
+		if (noOfPlayers === 1) {
+			rylie.isAI = true;
+		} else {
+			rylie.isAI = false;
+		}
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);
 		creatures[2] = makeEnemy(2);
@@ -51,11 +65,9 @@ var startNeptune9 = function(event) {
 
 		controls[0].setCreature(creatures[0]);
 		controls[1].setCreature(creatures[1]);
+
+		isGameRunning = true;
 	}
-
-
-
-	restartGame();
 
 	var firstParentWithClass = function (startNode, className) {
 		var node = startNode;
@@ -99,6 +111,9 @@ var startNeptune9 = function(event) {
 	}, false);
 
 	window.setInterval(function () {
+
+		
+
 		var left = (keyboard.isKeyHit(KeyEvent.DOM_VK_LEFT));
 		var right = (keyboard.isKeyHit(KeyEvent.DOM_VK_RIGHT));
 		var up = (keyboard.isKeyHit(KeyEvent.DOM_VK_UP));
@@ -109,6 +124,21 @@ var startNeptune9 = function(event) {
 		var down2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_S));
 		var enter = (keyboard.isKeyHit(KeyEvent.DOM_VK_ENTER)) || (keyboard.isKeyHit(KeyEvent.DOM_VK_RETURN));
 		keyboard.update();
+
+		if (enter && restartPopover.isShown()) {
+			restartGame();
+		}
+
+		if ((left || left2) && startGamePopover.isShown()) {
+			startGame(1);
+		}
+
+		if ((right || right2) && startGamePopover.isShown()) {
+			startGame(2);
+		}
+
+		if (!isGameRunning) return;
+
 		controls[0].update(up2, down2, left2, right2);
 		controls[1].update(up, down, left, right);
 		creatures.forEach(function (c, index) {
@@ -126,21 +156,18 @@ var startNeptune9 = function(event) {
 			}
 		}
 
-		if (enter && restartPopover.isShown() === true) {
-			restartPopover.hide();
-			restartGame();
-		}
 	}, 1000/30);
 
-	var addRestartEventListener = function () {
-		var buttonEle = document.querySelector('.restartButton');
+	var addClickEventListener = function (buttonClass, action, args) {
+		var buttonEle = document.querySelector(buttonClass);
 		buttonEle.addEventListener('click', function (event) {
-		    restartPopover.hide();
-		    restartGame();
+		    action.apply(args);
 		}, false);
 	}
 
-	addRestartEventListener();
+	addClickEventListener('.restartButton', restartGame);
+	addClickEventListener('.onePlayerButton', startGame, 1);
+	addClickEventListener('.twoPlayerButton', startGame, 2);
 };
 if (document.readyState !== "loading") {
 	startNeptune9();

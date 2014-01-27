@@ -147,8 +147,8 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 
 		var randomEnemyId = function () {
 			var enemies = getEnemies();
-			if (!enemies[0].alive) return 1;
-			if (!enemies[1].alive) return 0;
+			if (!enemies[0].alive) return enemies[1].id;
+			if (!enemies[1].alive) return enemies[0].id;
 			return enemies[Math.floor(Math.random() * 2)].id;
 		}
 
@@ -307,10 +307,30 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		};
 
 		var runAI = function () {
+			var moves = [];
 			var enemies = getEnemies();
-			if (!enemies[0].alive && !enemies[1].alive) return;
-			if (c.cover < 2 && Math.random() > 0.3) c.useAction(1);
-			c.useAction(0, randomEnemyId());
+			if (enemies[0].alive || enemies[1].alive) {
+				//offensive moves
+				moves.push({score: 10, move:0, target:randomEnemyId()}); //shoot
+				if (c.cover > 5 && enemies[0].cover >= 2 && enemies[1].cover >= 2) {
+					moves.push({score: 15, move:2}); //charge
+				}
+			}
+			if (c.cover < 2 && c.cover < c.maxCover && Math.random() > 0.3) {
+				moves.push({score: 20, move: 1}); //take cover
+			}
+			if (c.cover < c.maxCover) {
+				moves.push({score: 1, move: 1}); //maybe take cover anyway.
+			}
+			var friend = getFriend();
+			if (friend.alive && friend.cover === 0 && Math.random() > 0.5) {
+				moves.push({score: 19, move:3}); //protect
+			}
+			if (moves.length === 0) return;
+
+			moves.sort(function (a, b) { return a.score - b.score});
+			var move = moves.pop();
+			c.useAction(move.move, move.target);
 		};
 
 		this.update = function () {
