@@ -1,5 +1,5 @@
 "use strict";
-require(["creature", "controls", "keyboard"], function(Creature, Controls, Keyboard) {
+require(["creature", "controls", "keyboard", "popover"], function(Creature, Controls, Keyboard, Popover) {
 
 var startNeptune9 = function(event) {
 
@@ -35,6 +35,7 @@ var startNeptune9 = function(event) {
 	var controls = [];
 	controls[0] = new Controls(0);
 	controls[1] = new Controls(1);
+	var restartPopover = new Popover("restart");
 	var popoverDelayTimer = 0;
 
 	var restartGame = function () {
@@ -97,24 +98,6 @@ var startNeptune9 = function(event) {
 		cardSelected(num);
 	}, false);
 
-
-	var popoversShown = {};
-	var showPopover = function (name) {
-		if (isPopoverShown(name) === true) return;
-		popoversShown[name] = true;
-		document.querySelector('.popover.' + name).classList.toggle("hidden", false);
-	}
-
-	var hidePopover = function (name) {
-		if (isPopoverShown(name) === false) return;
-		delete popoversShown[name];
-		document.querySelector('.popover.' + name).classList.toggle("hidden", true);
-	}
-
-	var isPopoverShown = function (name) {
-		return popoversShown[name] !== undefined;
-	}
-
 	window.setInterval(function () {
 		var left = (keyboard.isKeyHit(KeyEvent.DOM_VK_LEFT));
 		var right = (keyboard.isKeyHit(KeyEvent.DOM_VK_RIGHT));
@@ -139,12 +122,12 @@ var startNeptune9 = function(event) {
 		if (creatures[0].alive === false && creatures[1].alive === false) {
 			popoverDelayTimer++;
 			if (popoverDelayTimer === 60) {
-				showPopover("restart");
+				restartPopover.show();
 			}
 		}
 
-		if (enter && isPopoverShown("restart") === true) {
-			hidePopover("restart");
+		if (enter && restartPopover.isShown() === true) {
+			restartPopover.hide();
 			restartGame();
 		}
 	}, 1000/30);
@@ -152,7 +135,7 @@ var startNeptune9 = function(event) {
 	var addRestartEventListener = function () {
 		var buttonEle = document.querySelector('.restartButton');
 		buttonEle.addEventListener('click', function (event) {
-		    hidePopover();
+		    restartPopover.hide();
 		    restartGame();
 		}, false);
 	}
