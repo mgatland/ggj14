@@ -100,6 +100,7 @@ var startNeptune9 = function(event) {
 		var right2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_D));
 		var up2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_W));
 		var down2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_S));
+		var enter = (keyboard.isKeyHit(KeyEvent.DOM_VK_ENTER)) || (keyboard.isKeyHit(KeyEvent.DOM_VK_RETURN));
 		keyboard.update();
 		controls[0].update(up2, down2, left2, right2);
 		controls[1].update(up, down, left, right);
@@ -116,6 +117,11 @@ var startNeptune9 = function(event) {
 			if (popoverDelayTimer === 60) {
 				showPopover();
 			}
+		}
+
+		if (enter && popoverShown === true) {
+			hidePopover();
+			restartGame();
 		}
 	}, 1000/30);
 
