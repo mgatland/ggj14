@@ -89,6 +89,7 @@ body {
 	-transform: rotateY(-180deg);
 }
 
+/* portraits */
 .image {
 	width: 140px;
 	height: 140px;
@@ -104,6 +105,8 @@ body {
 	left: 0;
 	top: 0;	
 }
+
+/* control panels */
 
 .controls {
 	width: 160px;
@@ -170,6 +173,8 @@ body {
 	transform: 			translateY(5px);
 }
 
+/* cooldown bars */
+
 
 .bar {
 	width: 192px;
@@ -200,12 +205,37 @@ body {
 	text-align: center;
 }
 
+/* popover */
+
+.popover {
+	position: absolute;
+	top: 10%;
+	left: 170px;
+	width: 570px;
+	height: 200px;
+	z-index: 20;
+	opacity: 1;
+}
+
+.hidden {
+	/*visibility:hidden;*/
+  	opacity:0;
+  	pointer-events: none;
+}
+
+.fadeIn {
+   transition: opacity 0.8s linear;
+   -moz-transition: opacity 0.8s linear;
+   -webkit-transition: opacity 0.8s linear;
+   }
+
+/* instructions and guides */
+
 .instructions {
 	margin-top: 16px;
 	font-size: 28px;
 	height: 54px;
 }
-
 
 .guide {
 	display: inline-block;

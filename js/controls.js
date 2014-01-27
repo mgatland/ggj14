@@ -1,7 +1,8 @@
 "use strict";
 define(function () {
-	var Controls = function (id, creature) {
+	var Controls = function (id) {
 		var controls = this; //for private methods
+		var creature = null;
 		this.id = id;
 		var state = "";
 		var selectedAction = "";
@@ -9,13 +10,17 @@ define(function () {
 		var ele = document.querySelector(".p" + id + ".controls");
 		var cardsEle = document.querySelector(".cards");
 
+		this.setCreature = function(newCreature) {
+			creature = newCreature;
+			updateLabels();
+		}
+
 		var updateLabels = function () {
 			for (var n = 0; n < 4; n++) {
 				var buttonLabel = document.querySelector(".p" + id + ".controls .act" + n + " .actionLabel");
 				buttonLabel.innerHTML = creature.actions[n].buttonLabel;
 			}
 		}
-		updateLabels();
 
 		var tryKeys = function (up, down, left, right) {
 			if (state === "chooseAction") {
@@ -31,9 +36,14 @@ define(function () {
 
 		this.update = function (up, down, left, right) {
 
+			if (!creature) return;
+
 			if (!creature.alive) {
 				setState("dead");
 				return;
+			}
+			if (creature.cooldown > 0) {
+				setState("wait");
 			}
 
 			tryKeys(up, down, left, right);
