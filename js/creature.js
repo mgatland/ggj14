@@ -113,8 +113,10 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			getElement("overlay").src = "arts/blank.png";
 			if (c.isAI) {
 				c.cooldown = Math.floor(Math.random() * 30) + 80;
+				getElement().classList.add("enemy");
 			} else {
 				c.cooldown = 45;
+				getElement().classList.remove("enemy");
 			}
 			c.maxCooldown = c.cooldown;
 			c.lastActionText = greeting;

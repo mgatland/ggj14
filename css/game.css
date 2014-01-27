@@ -2,6 +2,7 @@
 
 body {
 	font: 20px/1em 'Droid Sans', sans-serif;
+	min-width: 955px;
 }
 
 .lines {
@@ -71,13 +72,17 @@ body {
 	background-image: linear-gradient(to bottom, #aaa, #777);
 }
 
+.card.dead .portrait {
+	opacity: 0.5;
+}
+
 /* flip the pane when hovered */
-.card.dead .front {
+.card.enemy.dead .front {
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
 	-transform: rotateY(180deg);
 }
-.card.dead .back {
+.card.enemy.dead .back {
 	-moz-transform: rotateY(0deg);
 	-webkit-transform: rotateY(0deg);
 	-transform: rotateY(0deg);
@@ -91,9 +96,8 @@ body {
 
 /* portraits */
 .image {
-	width: 140px;
-	height: 140px;
-	border: 2px solid white;
+	width: 144px;
+	height: 144px;
 	margin: 8px auto;
 	position: relative;
 }
@@ -104,6 +108,10 @@ body {
 	height: 140px;
 	left: 0;
 	top: 0;	
+}
+
+.portrait {
+	border: 2px solid white;
 }
 
 /* control panels */
@@ -209,10 +217,10 @@ body {
 
 .popover {
 	position: absolute;
-	top: 10%;
+	top: 220px;
 	left: 170px;
 	width: 570px;
-	height: 200px;
+	height: 100px;
 	z-index: 20;
 	opacity: 1;
 }
