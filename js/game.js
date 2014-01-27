@@ -3,6 +3,13 @@ require(["creature", "controls", "keyboard"], function(Creature, Controls, Keybo
 
 var startNeptune9 = function(event) {
 
+	var DEBUG = {};
+	if (location.search) {
+		if (location.search.indexOf("1hit") >= 0) {
+			DEBUG.oneHit = true;
+		}
+	}
+
 	var makeEnemy = function(slot, type) {
 		if (type === undefined) type = Math.floor(Math.random()*4);
 		if (type === 0) return new Creature(slot, "Dopnot", "dopnot.png", "'Grr! Zeek!'", 6, creatures, true);
@@ -20,8 +27,8 @@ var startNeptune9 = function(event) {
 
 	var restartGame = function () {
 		popoverDelayTimer = 0;
-		creatures[0] = new Creature(0, "Rylie", "warrior.png", "'Let's go!'", 10, creatures, false);
-		creatures[1] = new Creature(1, "Brooklyn", "missionary.png", "'I sense trouble.'", 10, creatures, false);
+		creatures[0] = new Creature(0, "Rylie", "warrior.png", "'Let's go!'", DEBUG.oneHit ? 1 : 10, creatures, false);
+		creatures[1] = new Creature(1, "Brooklyn", "missionary.png", "'I sense trouble.'", DEBUG.oneHit ? 1 : 10, creatures, false);
 		creatures[2] = makeEnemy(2);
 		creatures[3] = makeEnemy(3);
 
