@@ -46,6 +46,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 //////
 
 	var Shoot = function () {
+		this.buttonLabel = "Shoot";
 		this.name = "Shooting"
 		this.verb = " fire at ";
 		this.needsTarget = true;
@@ -55,6 +56,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 	}
 
 	var FindCover = function () {
+		this.buttonLabel = "Find Cover";
 		this.name = "Taking Cover"
 		this.verb = " move back to find cover.";
 		this.needsTarget = false;
@@ -63,6 +65,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 	}
 
 	var Charge = function () {
+		this.buttonLabel = "Advance";
 		this.name = "Charging"
 		this.verb = " charge forwards!";
 		this.needsTarget = false;
@@ -73,6 +76,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 	}
 
 	var Protect = function () {
+		this.buttonLabel = "Protect";
 		this.name = "Protect $teammate";
 		this.verb = " protects a teammate.";
 		this.needsTarget = false;
@@ -115,6 +119,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			c.maxCooldown = c.cooldown;
 			c.lastActionText = greeting;
 			c.initCoverTokens(c.maxCover);
+
 		}
 
 		this.die = function () {

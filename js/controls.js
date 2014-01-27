@@ -1,13 +1,21 @@
 "use strict";
 define(function () {
-	var Controls = function (i, creature) {
+	var Controls = function (id, creature) {
 		var controls = this; //for private methods
-		this.i = i;
+		this.id = id;
 		var state = "";
 		var selectedAction = "";
-		
-		var ele = document.querySelector(".p" + i + ".controls");
+
+		var ele = document.querySelector(".p" + id + ".controls");
 		var cardsEle = document.querySelector(".cards");
+
+		var updateLabels = function () {
+			for (var n = 0; n < 4; n++) {
+				var buttonLabel = document.querySelector(".p" + id + ".controls .act" + n + " .actionLabel");
+				buttonLabel.innerHTML = creature.actions[n].buttonLabel;
+			}
+		}
+		updateLabels();
 
 		var tryKeys = function (up, down, left, right) {
 			if (state === "chooseAction") {
@@ -17,7 +25,7 @@ define(function () {
 				if (right) controls.actionSelected(3);
 			} else if (state === "chooseTarget") {
 				if (left) controls.cardSelected(2);
-				if (right) controls.cardSelected(3);	
+				if (right) controls.cardSelected(3);
 			}
 		}
 
@@ -41,11 +49,11 @@ define(function () {
 			if (state !== "chooseAction") return;
 			selectedAction = act;
 			if (creature.doesActionNeedTarget(act)) {
-				setState("chooseTarget");	
+				setState("chooseTarget");
 			} else {
 				useAction(act, null);
 			}
-			
+
 		}
 
 		var useAction = function (action, targetNum) {
@@ -72,7 +80,7 @@ define(function () {
 				ele.classList.remove("wait");
 				ele.classList.remove("dead");
 				ele.classList.toggle("keyhints", false);
-				cardsEle.classList.toggle("keyhints" + i, true);
+				cardsEle.classList.toggle("keyhints" + id, true);
 			}
 			if (state === "chooseAction") {
 				ele.classList.remove("chooseTarget");
@@ -81,7 +89,7 @@ define(function () {
 				ele.classList.remove("wait");
 				ele.classList.remove("dead");
 				ele.classList.toggle("keyhints", true);
-				cardsEle.classList.toggle("keyhints" + i, false);
+				cardsEle.classList.toggle("keyhints" + id, false);
 			}
 			if (state === "wait") {
 				ele.classList.remove("chooseTarget");
@@ -90,7 +98,7 @@ define(function () {
 				ele.classList.add("wait");
 				ele.classList.remove("dead");
 				ele.classList.toggle("keyhints", false);
-				cardsEle.classList.toggle("keyhints" + i, false);
+				cardsEle.classList.toggle("keyhints" + id, false);
 			}
 			if (state === "dead") {
 				ele.classList.remove("chooseTarget");
@@ -99,7 +107,7 @@ define(function () {
 				ele.classList.remove("wait");
 				ele.classList.add("dead");
 				ele.classList.toggle("keyhints", false);
-				cardsEle.classList.toggle("keyhints" + i, false);
+				cardsEle.classList.toggle("keyhints" + id, false);
 			}
 		}
 		setState("chooseAction");
