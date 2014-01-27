@@ -95,6 +95,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.maxEnergy = 1;
 		this.isAI = data.isAI ? true : false;
 		this.greeting = data.greeting;
+		this.isHero = data.isHero ? true : false;
 		var pic = data.pic;
 
 		this.instructionText = ""; //Set by Controls
@@ -115,12 +116,12 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			coverTokensEle = getElement("coverTokens");
 			getElement("portrait").src = "arts/" + pic;
 			getElement("overlay").src = "arts/blank.png";
-			if (c.isAI) {
-				c.cooldown = Math.floor(Math.random() * 30) + 80;
-				getElement().classList.add("enemy");
-			} else {
+			if (c.isHero) {
 				c.cooldown = 45;
 				getElement().classList.remove("enemy");
+			} else {
+				c.cooldown = Math.floor(Math.random() * 30) + 80;
+				getElement().classList.add("enemy");
 			}
 			c.maxCooldown = c.cooldown;
 			c.lastActionText = c.greeting;
@@ -217,10 +218,10 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		}
 
 		var getAttackColor = function () {
-			if (c.isAI) {
-				return "rgba(200,100,100,0.4)";
-			} else {
+			if (c.isHero) {
 				return "rgba(100,100,200,0.4)";
+			} else {
+				return "rgba(200,100,100,0.4)";
 			}
 		}
 
@@ -284,7 +285,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 					c.draw();
 				})
 				this.maxCooldown = action.cooldown;
-				if (this.isAI) this.maxCooldown *= 2;
+				if (!this.isHero) this.maxCooldown *= 2;
 				this.cooldown = this.maxCooldown;
 
 				this.lastActionText = action.name;

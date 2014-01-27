@@ -10,8 +10,8 @@ var startNeptune9 = function(event) {
 		}
 	}
 
-	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false};
-	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false};
+	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false, isHero: true};
+	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false, isHero: true};
 	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, isAI:true};
 	var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 3, isAI:true};
 	var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, isAI:true};
@@ -120,7 +120,7 @@ var startNeptune9 = function(event) {
 		controls[1].update(up, down, left, right);
 		creatures.forEach(function (c, index) {
 			c.update();
-			if (c.alive === false && c.deadTimer === 0 && c.isAI) {
+			if (c.alive === false && c.deadTimer === 0 && !c.isHero) {
 				creatures[index] = makeEnemy(index);
 				creatures[index].draw();
 			}
