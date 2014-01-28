@@ -149,8 +149,17 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			updateDangerStatus();
 		}
 
+		this.recover = function () {
+			this.alive = true;
+			this.cooldown = 0;
+			this.loseCover(-this.maxCover);
+		}
+
 		this.loseCover = function (num) {
 			var effects = [];
+
+			if (!this.alive) return effects;
+
 			var tokens = this.cover;
 			this.cover -= num;
 			if (this.cover < 0) this.cover = 0;

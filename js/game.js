@@ -13,6 +13,9 @@ var startNeptune9 = function(event) {
 		if (location.search.indexOf("aiparty") >= 0) {
 			DEBUG.aiParty = true;
 		}
+		if (location.search.indexOf("pfast") >= 0) {
+			DEBUG.pFast = true;
+		}
 	}
 
 	var allActions = [Actions.Shoot, Actions.FindCover, Actions.Charge, Actions.Protect];
@@ -27,11 +30,16 @@ var startNeptune9 = function(event) {
 		rylie.isAI = true;
 		brooklyn.isAI = true;
 	}
+	if (DEBUG.pFast) {
+		rylie.speed = 2;
+		brooklyn.speed = 2;
+	}
 
 	var advanceStory = function () {
 		storyPopover.hide();
 		if (chapter.isEnded()) {
 			chapter = new Chapter("Random Zone", creatures, storyPopover);
+			chapter.start(creatures);
 		}
 	}
 
@@ -62,6 +70,7 @@ var startNeptune9 = function(event) {
 		}
 
 		chapter = new Chapter("Crime Zone", storyPopover);
+		chapter.start(creatures);
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);
 		creatures[2] = new Creature(2, Creature.placeHolder, creatures);

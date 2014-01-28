@@ -38,6 +38,14 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			return isEnded;
 		}
 
+		this.start = function (creatures) {
+			creatures.forEach(function (creature) {
+				if (creature.isHero) {
+					creature.recover();
+				}
+			});
+		}
+
 		this.update = function (creatures) {
 			document.querySelector('.chapterName').innerHTML = name;
 			var enemiesLeft = getEnemiesLeft(creatures);
