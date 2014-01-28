@@ -1,5 +1,5 @@
 "use strict";
-require(["creature", "controls", "keyboard", "popover"], function(Creature, Controls, Keyboard, Popover) {
+require(["creature", "controls", "keyboard", "popover", "actions"], function(Creature, Controls, Keyboard, Popover, Actions) {
 
 var startNeptune9 = function(event) {
 
@@ -11,12 +11,15 @@ var startNeptune9 = function(event) {
 		}
 	}
 
-	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false, isHero: true};
-	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false, isHero: true};
-	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, isAI:true};
-	var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 3, isAI:true};
-	var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, isAI:true};
-	var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 4, isAI:true};
+	var allActions = [Actions.Shoot, Actions.FindCover, Actions.Charge, Actions.Protect];
+	var antisocialActions = [Actions.Shoot, Actions.FindCover, Actions.Charge];
+
+	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false, actions: allActions, isHero: true};
+	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false, actions: allActions, isHero: true};
+	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, actions: antisocialActions, isAI:true};
+	var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 3, actions: antisocialActions, isAI:true};
+	var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, actions: antisocialActions, isAI:true};
+	var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 4, actions: allActions, isAI:true};
 
 	if (DEBUG.oneHit) {
 		rylie.cover = 1;

@@ -1,5 +1,5 @@
 "use strict";
-define(function () {
+define(["actions"], function (Actions) {
 
 /* line drawing hacks */
 
@@ -43,97 +43,6 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 	}, duration);
 }
 
-//////
-
-	var Shoot = function () {
-		this.buttonLabel = "Shoot";
-		this.name = "Shooting"
-		this.verb = " fire at ";
-		this.needsTarget = true;
-		this.cooldown = 40;
-		this.coverDamage = 1;
-		this.isFatal = true;
-
-		this.addIdeas = function (index, c, ideas, enemies, friend) {
-			enemies.forEach(function (enemy) {
-				if (enemy.alive) {
-					ideas.push({move: index, score: 10 + Math.random(), target: enemy.id});
-				}
-			});
-		};
-	}
-
-	var FindCover = function () {
-		this.buttonLabel = "Find Cover";
-		this.name = "Taking Cover"
-		this.verb = " move back to find cover.";
-		this.needsTarget = false;
-		this.cooldown = 90; //Must be slower than 2 shots
-		this.coverCost = -2;
-
-		this.addIdeas = function (index, c, ideas, enemies, friend) {
-			if (c.cover >= c.maxCover) return;
-
-			if (c.cover === 0 && Math.random() > 0.2) {
-				ideas.push({score: 30, move: index});
-				return;
-			}
-
-			if (c.cover === 1 && Math.random() > 0.5) {
-				ideas.push({score: 20, move: index});
-				return;
-			}
-			ideas.push({score: 1, move: index});	
-		};
-	}
-
-	var Charge = function () {
-		this.buttonLabel = "Advance";
-		this.name = "Charging"
-		this.verb = " charge forwards!";
-		this.needsTarget = false;
-		this.cooldown = 60; //Should be quicker than 2 shots?
-		this.coverCost = 4;
-		this.targets = "both enemies";
-		this.coverDamage = 2;
-
-		this.addIdeas = function (index, c, ideas, enemies, friend) {
-			if (c.cover > 4 && enemies[0].cover >= 2 && enemies[1].cover >= 2
-				&& Math.random() > 0.7) {
-				ideas.push({score: 15, move: index});
-			}
-		};	
-	}
-
-	var Protect = function () {
-		this.buttonLabel = "Protect";
-		this.name = "Protect $teammate";
-		this.verb = " protects a teammate.";
-		this.needsTarget = false;
-		this.cooldown = 40;
-		this.coverCost = 2;
-		this.teammateCoverCost = -2;
-
-		this.addIdeas = function (index, c, ideas, enemies, friend) {
-			if (friend.alive && friend.cover < friend.maxCover) {
-				if (friend.cover === 0 && c.cover > 2) {
-					ideas.push({score: 25, move:index});
-					return;
-				} else if (friend.cover <= friend.maxCover - 4
-					&& friend.cover <= 3 
-					&& friend.cover <= c.cover - 4) {
-					if (Math.random() > 0.7) {
-						ideas.push({score: 19, move:index});
-						return;
-					} else {
-						ideas.push({score: 2, move:index});
-						return;
-					}
-				}
-			}
-		};
-	}
-
 	var Creature = function (id, data, creatures) {
 		var c = this; //for private methods
 		this.id = id;
@@ -145,6 +54,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.isAI = data.isAI ? true : false;
 		this.greeting = data.greeting;
 		this.isHero = data.isHero ? true : false;
+		this.actions = data.actions;
 		var pic = data.pic;
 
 		this.instructionText = ""; //Set by Controls
@@ -214,12 +124,6 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			}
 			return enemies;
 		}
-
-		this.actions = [];
-		this.actions.push(new Shoot());
-		this.actions.push(new FindCover());
-		this.actions.push(new Charge());
-		this.actions.push(new Protect());
 
 		this.doesActionNeedTarget = function (actionCode) {
 			var action = this.actions[actionCode];
@@ -302,7 +206,11 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		}
 
 		this.useAction = function(actionCode, targetCode) {
-			var action = this.actions[actionCode];
+			if (typeof actionCode === "number") {
+				var action = this.actions[actionCode];
+			} else {
+				var action = actionCode;
+			}
 			var origin = getAttackOrigin();
 			var friendTokens = [];
 			if (!action) {
@@ -369,7 +277,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			var friend = getFriend();
 
 			c.actions.forEach(function (action, index) {
-				action.addIdeas(index, c, ideas, enemies, friend);
+				action.addIdeas(c, ideas, enemies, friend);
 			});
 
 			if (ideas.length === 0) return;
