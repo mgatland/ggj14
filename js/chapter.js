@@ -9,15 +9,30 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, actions: antisocialActions, isAI:true, speed: 0.75};
 
 	var chapters = [];
-	chapters.push({name: "Ambush",
+	chapters.push({
+		name: "Ambush",
 		start: "Look out!",
-		end: "We made it. But we're running late. We'll have to cut through the Crime Zone."});
-	chapters.push({name:"Crime Zone",
+		end: "We made it. But we're running late. We'll have to cut through the Crime Zone.",
+		enemies: [gobnit, weewit]
+	});
+	chapters.push({
+		name:"Crime Zone",
 		start:"Gross. It's full of criminals.",
-		end:"Good work! We're through the Crime Zone."});
-	chapters.push({name:"Water Zone",
-		start:"Finally, the Water Zone! But it's full of monsters?!",
-		end:"We can't take this water back home, it's mouldy. Let's find a purifier."});
+		end:"Good work! We're through the Crime Zone.",
+		enemies: [gobnit, weewit, gobnit, leepig, weewit, gobnit, dopnot]
+	});
+	chapters.push({
+		name:"Water Zone",
+		start:"Finally, the Water Zone! But it's full of robots?!",
+		end:"We can't take this water back home, it's mouldy. Let's find a purifier.",
+		enemies: [dopnot, dopnot, weewit, dopnot, weewit, leepig, weewit, dopnot, gobnit]
+		});
+	chapters.push({
+		name:"Slime Zone",
+		start:"There'll be a purifier somewhere around here.",
+		end:"Found a purifier! Now we can return home.",
+		enemies: [gobnit, gobnit, gobnit, gobnit, gobnit]
+		});
 
 	var chapterNum = 0;
 	var next = function (storyPopover) {
@@ -29,7 +44,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 
 	var Chapter = function (data, storyPopover) {
 		var name = data.name;
-		var enemiesList = [gobnit, gobnit, weewit]; // gobnit, leepig, weewit, gobnit, dopnot];
+		var enemiesList = data.enemies;
 		var storyStart = data.start;
 		var storyEnd = data.end;
 		var isEnded = false;
@@ -46,7 +61,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 		var canMakeEnemy = function () { return enemiesList.length > 0; };
 
 		var makeEnemy = function (slot, creatures) {
-			return new Creature(slot, enemiesList.pop(), creatures);
+			return new Creature(slot, enemiesList.shift(), creatures);
 		}
 
 		var endChapter = function () {
