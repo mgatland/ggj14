@@ -146,6 +146,10 @@ var startNeptune9 = function(event) {
 			restartGame();
 		}
 
+		if (enter && storyPopover.isShown()) {
+			advanceStory();
+		}
+
 		if ((left || left2) && startGamePopover.isShown()) {
 			startGame(1);
 		}
