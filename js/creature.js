@@ -53,6 +53,14 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.cooldown = 40;
 		this.coverDamage = 1;
 		this.isFatal = true;
+
+		this.addIdeas = function (index, c, ideas, enemies, friend) {
+			enemies.forEach(function (enemy) {
+				if (enemy.alive) {
+					ideas.push({move: index, score: 10 + Math.random(), target: enemy.id});
+				}
+			});
+		};
 	}
 
 	var FindCover = function () {
@@ -62,6 +70,21 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.needsTarget = false;
 		this.cooldown = 90; //Must be slower than 2 shots
 		this.coverCost = -2;
+
+		this.addIdeas = function (index, c, ideas, enemies, friend) {
+			if (c.cover >= c.maxCover) return;
+
+			if (c.cover === 0 && Math.random() > 0.2) {
+				ideas.push({score: 30, move: index});
+				return;
+			}
+
+			if (c.cover === 1 && Math.random() > 0.5) {
+				ideas.push({score: 20, move: index});
+				return;
+			}
+			ideas.push({score: 1, move: index});	
+		};
 	}
 
 	var Charge = function () {
@@ -73,6 +96,13 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.coverCost = 4;
 		this.targets = "both enemies";
 		this.coverDamage = 2;
+
+		this.addIdeas = function (index, c, ideas, enemies, friend) {
+			if (c.cover > 4 && enemies[0].cover >= 2 && enemies[1].cover >= 2
+				&& Math.random() > 0.7) {
+				ideas.push({score: 15, move: index});
+			}
+		};	
 	}
 
 	var Protect = function () {
@@ -83,6 +113,25 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.cooldown = 40;
 		this.coverCost = 2;
 		this.teammateCoverCost = -2;
+
+		this.addIdeas = function (index, c, ideas, enemies, friend) {
+			if (friend.alive && friend.cover < friend.maxCover) {
+				if (friend.cover === 0 && c.cover > 2) {
+					ideas.push({score: 25, move:index});
+					return;
+				} else if (friend.cover <= friend.maxCover - 4
+					&& friend.cover <= 3 
+					&& friend.cover <= c.cover - 4) {
+					if (Math.random() > 0.7) {
+						ideas.push({score: 19, move:index});
+						return;
+					} else {
+						ideas.push({score: 2, move:index});
+						return;
+					}
+				}
+			}
+		};
 	}
 
 	var Creature = function (id, data, creatures) {
@@ -109,6 +158,8 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.lastActionText = "";
 		this.cooldown = 0;
 		this.maxCooldown = 0;
+
+		var aiDelayTimer = 0;
 
 		var init = function () {
 			cooldownEle = getElement("cooldown");
@@ -307,30 +358,26 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		};
 
 		var runAI = function () {
-			var moves = [];
-			var enemies = getEnemies();
-			if (enemies[0].alive || enemies[1].alive) {
-				//offensive moves
-				moves.push({score: 10, move:0, target:randomEnemyId()}); //shoot
-				if (c.cover > 5 && enemies[0].cover >= 2 && enemies[1].cover >= 2) {
-					moves.push({score: 15, move:2}); //charge
-				}
-			}
-			if (c.cover < 2 && c.cover < c.maxCover && Math.random() > 0.3) {
-				moves.push({score: 20, move: 1}); //take cover
-			}
-			if (c.cover < c.maxCover) {
-				moves.push({score: 1, move: 1}); //maybe take cover anyway.
-			}
-			var friend = getFriend();
-			if (friend.alive && friend.cover === 0 && Math.random() > 0.5) {
-				moves.push({score: 19, move:3}); //protect
-			}
-			if (moves.length === 0) return;
 
-			moves.sort(function (a, b) { return a.score - b.score});
-			var move = moves.pop();
-			c.useAction(move.move, move.target);
+			if (aiDelayTimer < 20) {
+				aiDelayTimer++;
+				return;
+			}
+
+			var ideas = [];
+			var enemies = getEnemies();
+			var friend = getFriend();
+
+			c.actions.forEach(function (action, index) {
+				action.addIdeas(index, c, ideas, enemies, friend);
+			});
+
+			if (ideas.length === 0) return;
+
+			ideas.sort(function (a, b) { return a.score - b.score});
+			var idea = ideas.pop();
+			c.useAction(idea.move, idea.target);
+			aiDelayTimer = 0;
 		};
 
 		this.update = function () {
@@ -354,6 +401,8 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				cooldownEle.style.width = 0;
 				if (this.isAI === false) {
 					cooldownLabelEle.innerHTML = this.instructionText; //controlled by Controls
+				} else {
+					cooldownLabelEle.innerHTML = "";
 				}
 			}
 
