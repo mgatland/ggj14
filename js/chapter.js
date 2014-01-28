@@ -44,7 +44,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 
 	var Chapter = function (data, storyPopover) {
 		var name = data.name;
-		var enemiesList = data.enemies;
+		var enemiesList = data.enemies.slice();
 		var storyStart = data.start;
 		var storyEnd = data.end;
 		var isEnded = false;
@@ -78,6 +78,8 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			creatures.forEach(function (creature) {
 				if (creature.isHero) {
 					creature.recover();
+					creature.idleAction();
+					creature.draw();
 				}
 			});
 

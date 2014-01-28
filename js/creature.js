@@ -96,6 +96,12 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 
 		}
 
+		this.idleAction = function () {
+			c.cooldown = 45;
+			c.maxCooldown = c.cooldown;
+			c.lastActionText = c.greeting;
+		}
+
 		this.die = function () {
 			if (!this.alive) return;
 			this.alive = false;
@@ -305,8 +311,6 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.update = function () {
 
 			if (this.alive === false) {
-				cooldownLabelEle.innerHTML = "";
-
 				if (this.deadTimer > 0) {
 					this.deadTimer--;
 				}
@@ -315,6 +319,20 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 
 			if (this.cooldown > 0) {
 				this.cooldown--;
+			}
+			if (this.cooldown <= 0 && this.alive && this.isAI) {
+				runAI();
+			}
+			this.draw();
+		}
+
+		this.draw = function () {
+
+			if (this.alive === false) {
+				cooldownLabelEle.innerHTML = "";
+			}
+
+			if (this.cooldown > 0) {
 				var coolPercentage = Math.floor(this.cooldown * 100 / this.maxCooldown);
 				if (coolPercentage > 92) coolPercentage = 92;
 				cooldownEle.style.width = coolPercentage + "%";
@@ -328,12 +346,6 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				}
 			}
 
-			if (this.cooldown <= 0 && this.alive && this.isAI) {
-				runAI();
-			}
-		}
-
-		this.draw = function () {
 			getElement("name").innerHTML = this.name;
 			getElement().classList.toggle("dead", !this.alive);
 		}
