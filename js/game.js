@@ -36,10 +36,12 @@ var startNeptune9 = function(event) {
 	}
 
 	var advanceStory = function () {
-		storyPopover.hide();
 		if (chapter.isEnded()) {
-			chapter = new Chapter("Random Zone", storyPopover);
+			chapter.cleanUp();
+			chapter = Chapter.next(storyPopover);
 			chapter.start(creatures);
+		} else {
+			chapter.reallyStart();
 		}
 	}
 
@@ -69,7 +71,7 @@ var startNeptune9 = function(event) {
 			rylie.isAI = false;
 		}
 
-		chapter = new Chapter("Crime Zone", storyPopover);
+		chapter = Chapter.next(storyPopover);
 		chapter.start(creatures);
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);

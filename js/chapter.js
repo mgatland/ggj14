@@ -8,11 +8,32 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 	var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 5, actions: allActions, isAI:true, speed: 0.5};
 	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, actions: antisocialActions, isAI:true, speed: 0.75};
 
-	var Chapter = function (name, storyPopover) {
+	var chapters = [];
+	chapters.push({name: "Ambush",
+		start: "Look out!",
+		end: "We made it. But we're running late. We'll have to cut through the Crime Zone."});
+	chapters.push({name:"Crime Zone",
+		start:"Gross. It's full of criminals.",
+		end:"Good work! We're through the Crime Zone."});
+	chapters.push({name:"Water Zone",
+		start:"Finally, the Water Zone! But it's full of monsters?!",
+		end:"We can't take this water back home, it's mouldy. Let's find a purifier."});
 
+	var chapterNum = 0;
+	var next = function (storyPopover) {
+		var chapter = new Chapter(chapters[chapterNum], storyPopover);
+		chapterNum++;
+		if (chapterNum === chapters.length) chapterNum = 0;
+		return chapter;
+	}
+
+	var Chapter = function (data, storyPopover) {
+		var name = data.name;
 		var enemiesList = [gobnit, gobnit, weewit]; // gobnit, leepig, weewit, gobnit, dopnot];
-		var story = "We made it! Time to clear the next zone.";
+		var storyStart = data.start;
+		var storyEnd = data.end;
 		var isEnded = false;
+		var isStarted = false;
 
 		var getEnemiesLeft = function (creatures) {
 			var count = enemiesList.length;
@@ -29,7 +50,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 		}
 
 		var endChapter = function () {
-			document.querySelector('.storyText').innerHTML = story;
+			document.querySelector('.storyText').innerHTML = storyEnd;
 			storyPopover.show();
 			isEnded = true;
 		}
@@ -44,9 +65,22 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 					creature.recover();
 				}
 			});
+
+			document.querySelector('.storyText').innerHTML = storyStart;
+			storyPopover.show();
+		}
+
+		this.cleanUp = function () {
+			storyPopover.hide();
+		}
+
+		this.reallyStart = function () {
+			isStarted = true;
+			storyPopover.hide();
 		}
 
 		this.update = function (creatures) {
+			if (!isStarted) return;
 			document.querySelector('.chapterName').innerHTML = name;
 			var enemiesLeft = getEnemiesLeft(creatures);
 			if (enemiesLeft === 0) {
@@ -70,5 +104,5 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			}
 		}
 	};
-	return Chapter;
+	return {next: next};
 });
