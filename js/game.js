@@ -1,6 +1,6 @@
 "use strict";
-require(["creature", "controls", "keyboard", "popover", "actions", "chapter"], 
-	function(Creature, Controls, Keyboard, Popover, Actions, Chapter) {
+require(["creature", "controls", "keyboard", "popover", "actions", "story"], 
+	function(Creature, Controls, Keyboard, Popover, Actions, Story) {
 
 var startNeptune9 = function(event) {
 
@@ -38,7 +38,7 @@ var startNeptune9 = function(event) {
 	var advanceStory = function () {
 		if (chapter.isEnded()) {
 			chapter.cleanUp();
-			chapter = Chapter.next(storyPopover);
+			chapter = story.next(storyPopover);
 			chapter.start(creatures);
 		} else {
 			chapter.reallyStart(creatures);
@@ -48,6 +48,7 @@ var startNeptune9 = function(event) {
 	var keyboard = new Keyboard();
 	var creatures = [];
 	var controls = [];
+	var story = null;
 	var chapter = null;
 	controls[0] = new Controls(0);
 	controls[1] = new Controls(1);
@@ -72,7 +73,8 @@ var startNeptune9 = function(event) {
 			rylie.isAI = false;
 		}
 
-		chapter = Chapter.start(storyPopover);
+		story = new Story();
+		chapter = story.start(storyPopover);
 		chapter.start(creatures);
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);
