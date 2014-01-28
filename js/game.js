@@ -38,7 +38,7 @@ var startNeptune9 = function(event) {
 	var advanceStory = function () {
 		storyPopover.hide();
 		if (chapter.isEnded()) {
-			chapter = new Chapter("Random Zone", creatures, storyPopover);
+			chapter = new Chapter("Random Zone", storyPopover);
 			chapter.start(creatures);
 		}
 	}

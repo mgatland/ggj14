@@ -102,7 +102,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			console.log(this.name + " died.");
 			getElement("overlay").src = "arts/dead.png";
 			updateDangerStatus();
-			this.deadTimer = 300;
+			this.deadTimer = 150;
 		}
 
 		var getFriend = function () {
