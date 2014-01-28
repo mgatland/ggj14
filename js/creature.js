@@ -54,6 +54,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		this.isAI = data.isAI ? true : false;
 		this.greeting = data.greeting;
 		this.isHero = data.isHero ? true : false;
+		this.speed = (data.speed !== undefined) ? data.speed : 1;
 		this.actions = data.actions;
 		var pic = data.pic;
 
@@ -243,8 +244,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				creatures.forEach(function (c) {
 					c.draw();
 				})
-				this.maxCooldown = action.cooldown;
-				if (!this.isHero) this.maxCooldown *= 2;
+				this.maxCooldown = Math.floor(action.cooldown / this.speed);
 				this.cooldown = this.maxCooldown;
 
 				this.lastActionText = action.name;
