@@ -326,7 +326,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 			this.draw();
 		}
 
-		this.draw = function () {
+		this.draw = function (hideHints) {
 
 			if (this.alive === false) {
 				cooldownLabelEle.innerHTML = "";
@@ -339,7 +339,7 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 				cooldownLabelEle.innerHTML = this.lastActionText;
 			} else {
 				cooldownEle.style.width = 0;
-				if (this.isAI === false) {
+				if (this.isAI === false && !hideHints) {
 					cooldownLabelEle.innerHTML = this.instructionText; //controlled by Controls
 				} else {
 					cooldownLabelEle.innerHTML = "";

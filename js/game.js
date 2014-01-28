@@ -41,7 +41,7 @@ var startNeptune9 = function(event) {
 			chapter = Chapter.next(storyPopover);
 			chapter.start(creatures);
 		} else {
-			chapter.reallyStart();
+			chapter.reallyStart(creatures);
 		}
 	}
 
@@ -59,6 +59,7 @@ var startNeptune9 = function(event) {
 	var restartGame = function () {
 		restartPopover.hide();
 		startGamePopover.show();
+		//TODO: set enemy cards to be flipped face down.
 	}
 
 	var startGame = function (noOfPlayers) {
@@ -71,7 +72,7 @@ var startNeptune9 = function(event) {
 			rylie.isAI = false;
 		}
 
-		chapter = Chapter.next(storyPopover);
+		chapter = Chapter.start(storyPopover);
 		chapter.start(creatures);
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);

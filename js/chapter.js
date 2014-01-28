@@ -35,6 +35,12 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 		});
 
 	var chapterNum = 0;
+
+	var start = function (storyPopover) {
+		chapterNum = 0;
+		return next(storyPopover);
+	}
+
 	var next = function (storyPopover) {
 		var chapter = new Chapter(chapters[chapterNum], storyPopover);
 		chapterNum++;
@@ -78,8 +84,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			creatures.forEach(function (creature) {
 				if (creature.isHero) {
 					creature.recover();
-					creature.idleAction();
-					creature.draw();
+					creature.draw("hideHints");
 				}
 			});
 
@@ -91,9 +96,15 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			storyPopover.hide();
 		}
 
-		this.reallyStart = function () {
+		this.reallyStart = function (creatures) {
 			isStarted = true;
 			storyPopover.hide();
+			creatures.forEach(function (creature) {
+				if (creature.isHero) {
+					creature.idleAction();
+				}
+			});
+
 		}
 
 		this.update = function (creatures) {
@@ -121,5 +132,5 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			}
 		}
 	};
-	return {next: next};
+	return {next: next, start: start};
 });
