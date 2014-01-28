@@ -72,6 +72,11 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 
 		var aiDelayTimer = 0;
 
+		if (data === Creature.placeHolder) {
+			this.alive = false;
+			this.deadTimer = 60;
+		}
+
 		var init = function () {
 			cooldownEle = getElement("cooldown");
 			cooldownLabelEle = getElement("bar .label");
@@ -333,5 +338,6 @@ function connect(start, end, color, thickness, duration) { // draw a line connec
 		}
 		init();
 	}
+Creature.placeHolder = {name: "", pic: "gobnit.png", greeting: "", cover: 0, actions: [], isAI:false};
 return Creature;
 });

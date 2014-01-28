@@ -1,5 +1,6 @@
 "use strict";
-require(["creature", "controls", "keyboard", "popover", "actions"], function(Creature, Controls, Keyboard, Popover, Actions) {
+require(["creature", "controls", "keyboard", "popover", "actions", "chapter"], 
+	function(Creature, Controls, Keyboard, Popover, Actions, Chapter) {
 
 var startNeptune9 = function(event) {
 
@@ -15,16 +16,9 @@ var startNeptune9 = function(event) {
 	}
 
 	var allActions = [Actions.Shoot, Actions.FindCover, Actions.Charge, Actions.Protect];
-	var antisocialActions = [Actions.Shoot, Actions.FindCover, Actions.Charge];
-
 	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false, actions: allActions, isHero: true};
 	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false, actions: allActions, isHero: true};
 	
-	var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 3, actions: antisocialActions, isAI:true, speed: 0.5};
-	var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, actions: antisocialActions, isAI:true, speed: 0.75};
-	var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 5, actions: allActions, isAI:true, speed: 0.5};
-	var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, actions: antisocialActions, isAI:true, speed: 0.75};
-
 	if (DEBUG.oneHit) {
 		rylie.cover = 1;
 		brooklyn.cover = 1;
@@ -37,63 +31,7 @@ var startNeptune9 = function(event) {
 	var advanceStory = function () {
 		storyPopover.hide();
 		if (chapter.isEnded()) {
-			chapter = new Chapter("Random Zone");
-		}
-	}
-
-	var Chapter = function (name) {
-
-		var enemiesList = [gobnit, gobnit, weewit, gobnit, leepig, weewit, gobnit, dopnot];
-		var story = "We made it! Time to clear the next zone.";
-		var isEnded = false;
-		var that = this;
-
-		var getEnemiesLeft = function (creatures) {
-			var count = enemiesList.length;
-			creatures.forEach(function (c) {
-				if (c.alive && !c.isHero) count++;
-			});
-			return count;
-		}
-
-		var canMakeEnemy = function () { return enemiesList.length > 0; };
-
-		this.makeEnemy = function (slot) {
-			return new Creature(slot, enemiesList.pop(), creatures);
-		}
-
-		var endChapter = function () {
-			document.querySelector('.storyText').innerHTML = story;
-			storyPopover.show();
-			isEnded = true;
-		}
-
-		this.isEnded = function () {
-			return isEnded;
-		}
-
-		this.update = function (creatures) {
-			document.querySelector('.chapterName').innerHTML = name;
-			var enemiesLeft = getEnemiesLeft(creatures);
-			if (enemiesLeft === 0) {
-				var message = "CLEAR";
-			} else if (enemiesLeft === 1) {
-				var message = "1 enemy left."
-			} else {
-				message = enemiesLeft + " enemies left.";
-			}
-			document.querySelector('.enemiesLeft').innerHTML = message;
-
-			creatures.forEach(function (c, index) {
-				if (c.alive === false && c.deadTimer === 0 && !c.isHero && canMakeEnemy()) {
-					creatures[index] = that.makeEnemy(index);
-					creatures[index].draw();
-				}
-			});
-
-			if (enemiesLeft === 0 && creatures[2].deadTimer === 0 && creatures[3].deadTimer === 0) {
-				endChapter();
-			}
+			chapter = new Chapter("Random Zone", creatures, storyPopover);
 		}
 	}
 
@@ -123,11 +61,11 @@ var startNeptune9 = function(event) {
 			rylie.isAI = false;
 		}
 
-		chapter = new Chapter("Crime Zone");
+		chapter = new Chapter("Crime Zone", storyPopover);
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);
-		creatures[2] = chapter.makeEnemy(2);
-		creatures[3] = chapter.makeEnemy(3);
+		creatures[2] = new Creature(2, Creature.placeHolder, creatures);
+		creatures[3] = new Creature(2, Creature.placeHolder, creatures);
 
 		creatures.forEach(function (c) {
 			c.draw();
