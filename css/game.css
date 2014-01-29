@@ -255,7 +255,7 @@
 
 .popover {
 	position: absolute;
-	top: 80px;
+	top: 250px;
 	left: 170px;
 	width: 570px;
 	height: auto;
@@ -263,8 +263,8 @@
 	opacity: 1;
 }
 
-.restart {
-	top: 220px;
+.startgame {
+	top: 80px;
 }
 
 .hidden {

@@ -12,26 +12,26 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 		var chapters = [];
 		chapters.push({
 			name: "Ambush",
-			start: "Look out!",
-			end: "We made it. But we're running late. We'll have to cut through the Crime Zone.",
+			start: "Look out – it's an ambush!",
+			end: "We made it. But we're running late. We'll have to take a shortcut...",
 			enemies: [gobnit, weewit]
 		});
 		chapters.push({
 			name:"Crime Zone",
-			start:"Gross. It's full of criminals.",
+			start:"The Crime Zone has tunnels to every major sector. But the Alvani gang is going to be waiting for us. They're still furious that we stopped their smuggling ring.",
 			end:"Good work! We're through the Crime Zone.",
 			enemies: [gobnit, weewit, gobnit, leepig, weewit, gobnit, dopnot]
 		});
 		chapters.push({
 			name:"Water Zone",
 			start:"Finally, the Water Zone! But it's full of robots?!",
-			end:"We can't take this water back home, it's mouldy. Let's find a purifier.",
+			end:"The water's full of slime. The purifier must be broken.",
 			enemies: [dopnot, dopnot, weewit, dopnot, weewit, leepig, weewit, dopnot, gobnit]
 		});
 		chapters.push({
 			name:"Slime Zone",
-			start:"There'll be a purifier somewhere around here.",
-			end:"Found a purifier! Now we can return home.",
+			start:"This is where the purifier should be. If we can get to it, we can fix it.",
+			end:"Found the purifier! Someone forgot to turn it on. One switch, and we're good!",
 			enemies: [gobnit, gobnit, gobnit, gobnit, gobnit]
 		});
 
@@ -43,9 +43,10 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 		}
 
 		this.next = function (storyPopover) {
+			if (chapterNum === chapters.length) return null;
+
 			var chapter = new Chapter(chapters[chapterNum], storyPopover);
 			chapterNum++;
-			if (chapterNum === chapters.length) chapterNum = 0;
 			return chapter;
 		}
 
@@ -72,6 +73,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			}
 
 			var endChapter = function () {
+				if (isEnded) return;
 				document.querySelector('.storyText').innerHTML = storyEnd;
 				storyPopover.show();
 				isEnded = true;

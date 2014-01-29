@@ -38,8 +38,14 @@ var startNeptune9 = function(event) {
 	var advanceStory = function () {
 		if (chapter.isEnded()) {
 			chapter.cleanUp();
-			chapter = story.next(storyPopover);
-			chapter.start(creatures);
+			var nextChapter = story.next(storyPopover);
+			if (nextChapter === null) {
+				document.querySelector('.restartText').innerHTML = "Mission Accomplished!<br><br>Neptune 9 is safe once again...<br><br>...but for how long?";
+				restartPopover.show();
+			} else {
+				chapter = nextChapter;
+				chapter.start(creatures);
+			}
 		} else {
 			chapter.reallyStart(creatures);
 		}
@@ -169,6 +175,7 @@ var startNeptune9 = function(event) {
 		if (creatures[0].alive === false && creatures[1].alive === false) {
 			popoverDelayTimer++;
 			if (popoverDelayTimer === 60) {
+				document.querySelector('.restartText').innerHTML = "Game Over";
 				restartPopover.show();
 			}
 		}
