@@ -32,7 +32,7 @@ define(["Actions", "Creature"], function (Actions, Creature) {
 			name:"Slime Zone",
 			start:"This is where the purifier should be. If we can get to it, we can fix it.",
 			end:"Found the purifier! Someone forgot to turn it on. One switch, and we're good!",
-			enemies: [gobnit, gobnit, gobnit, gobnit, gobnit]
+			enemies: [gobnit, gobnit, gobnit]
 		});
 
 		var chapterNum = 0;
