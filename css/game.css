@@ -167,13 +167,14 @@
 	height: 32px;
 	margin: 16px auto;
 	font-size: 20px;
+	line-height: 1.5em;
 	position: relative;
 
 	/*based on BonBon Buttons 1.1 by simurai.com*/
 
 	padding: 				.5em .6em .4em 1.6em;
 
-	border-radius: 1.5em / 1em;
+	border-radius: 0.3em / 0.1em;
 
 	background-image: 	-webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) )), url(noise.png);
 	background-image: 	-moz-radial-gradient(top, ellipse cover, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%), url(noise.png);
@@ -305,6 +306,12 @@ p {
 	color: darkgrey;
 	margin: 20px;
 }
+
+.newbieHint {
+	font-size: 27px;
+	margin-top: 25px;
+	line-height: 1.05em;
+}
 /* cover tokens*/
 
 .coverTokens {
@@ -352,30 +359,30 @@ p .coverToken {
 /* key hints */
 
 .keyhint {
-	width: 19px;
-	height: 19px;
-	padding: 2px;
-	margin-left: -19px;
-	margin-top: 3px;
+	width: 36px;
+	height: 36px;
+	margin-left: -22px;
+	margin-top: -2px;
+	line-height: 36px;
 
-	background: rgba(94, 233, 59, 200);
+	background-image: url(noise_half.png);
+	background-color: rgba(94, 233, 59, 200);
 
 	box-shadow: 		inset rgba(255,254,255,0.4) 0 0.3em .3em, inset rgba(0,0,0,0.1) 0 -0.1em .3em, /* inner shadow */ 
 							rgba(0,0,0,0.3) 0 .1em 1px, /* border */
 							rgba(0,0,0,0.2) 0 .2em 6px; /* drop shadow */
-
-	position: absolute;
 	display: none;
 	z-index: 10;
 }
 
-.controls .keyhint {
-	display: block;
-	background: rgba(200, 200, 200, 100);
+.controls .keyhint, .popover .keyhint {
+	display: inline-block;
+	float:left;
+	background-color: rgba(200, 200, 200, 100);
 }
 
-.keyhints .keyhint.p1 {
-	background: skyblue;
+.keyhints .keyhint.p1, .popover .keyhint {
+	background-color: skyblue;
 }
 
 .cards .keyhint {
@@ -389,17 +396,19 @@ p .coverToken {
 
 	margin-left: -32px;
 	margin-top: -20px;
+
+	position: absolute;
 }
 
 
 .cards .keyhint.p1 {
-	background: skyblue;
+	background-color: skyblue;
 	margin-left: 160px;
 }
 
 .keyhints .keyhint {
 	display: block;
-	background: rgba(94, 233, 59, 200);
+	background-color: rgba(94, 233, 59, 200);
 }
 
 .keyhints0 .keyhint.p0 {
@@ -426,11 +435,13 @@ p .coverToken {
 }
 
 /* Control panel state */
-.onChooseTarget, .onChooseAction, .onWait {
+.onChooseTarget, .onChooseAction, .onWait, .onNewbieChooseTarget, .onNewbieChooseAction {
 	display: none;
 }
 .chooseTarget .onChooseTarget, 
 .wait .onWait, 
-.chooseAction .onChooseAction {
+.chooseAction .onChooseAction,
+.newbieMode.chooseTarget .onNewbieChooseTarget,
+.newbieMode.chooseAction .onNewbieChooseAction {
 	display: block;
 }

@@ -1,5 +1,5 @@
 "use strict";
-require(["creature", "controls", "keyboard", "popover", "actions", "story"], 
+require(["creature", "controls", "keyboard", "popover", "actions", "story"],
 	function(Creature, Controls, Keyboard, Popover, Actions, Story) {
 
 var startNeptune9 = function(event) {
@@ -23,7 +23,7 @@ var startNeptune9 = function(event) {
 	var allActions = [Actions.Shoot, Actions.FindCover, Actions.Charge, Actions.Protect];
 	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false, actions: allActions, isHero: true};
 	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false, actions: allActions, isHero: true};
-	
+
 	if (DEBUG.oneHit) {
 		rylie.cover = 1;
 		brooklyn.cover = 1;
@@ -161,6 +161,10 @@ var startNeptune9 = function(event) {
 		var up2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_W));
 		var down2 = (keyboard.isKeyHit(KeyEvent.DOM_VK_S));
 		var enter = (keyboard.isKeyHit(KeyEvent.DOM_VK_ENTER)) || (keyboard.isKeyHit(KeyEvent.DOM_VK_RETURN));
+
+		//Up also counts as enter in every situation
+		enter = (enter || up || up2);
+
 		keyboard.update();
 
 		if (enter && restartPopover.isShown()) {
