@@ -12,7 +12,7 @@ define(["actions", "creature"], function (Actions, Creature) {
 		var chapters = [];
 		chapters.push({
 			name: "Ambush",
-			start: "Look out – it's an ambush!",
+			start: "",
 			end: "We made it. But we're running late. We'll have to take a shortcut...",
 			enemies: [gobnit, weewit]
 		});
@@ -92,8 +92,14 @@ define(["actions", "creature"], function (Actions, Creature) {
 					}
 				});
 
-				document.querySelector('.storyText').innerHTML = storyStart;
-				storyPopover.show();
+				if (typeof storyStart === "string" && storyStart.length > 0) {
+					document.querySelector('.storyText').innerHTML = storyStart;
+					storyPopover.show();
+				} else {
+					//no intro text
+					this.reallyStart(creatures);
+				}
+
 			}
 
 			this.cleanUp = function () {
