@@ -3,7 +3,29 @@
 .game {
 	font: 20px/1em 'Droid Sans', sans-serif;
 	min-width: 955px;
+	color: black;
 }
+
+.storyText {
+	text-align: left;
+	line-height: 1.2em;
+	padding-left: 1em;
+}
+
+.chatLabel {
+	font-weight: bold;
+	text-indent: -1em;
+	display: inline-block;	
+}
+
+.chatLabel.p0 {
+	color: hsl(88, 46%, 36%);
+}
+
+.chatLabel.p1 {
+	color: hsl(190, 43%, 50%);
+}
+
 
 .lines {
 	pointer-events: none;
@@ -317,7 +339,6 @@
 
 p {
 	line-height: 1.3em;
-	color: darkgrey;
 	margin: 20px;
 }
 

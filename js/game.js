@@ -33,8 +33,8 @@ var startNeptune9 = function(event) {
 		brooklyn.isAI = true;
 	}
 	if (DEBUG.pFast) {
-		rylie.speed = 2;
-		brooklyn.speed = 2;
+		rylie.speed = 6;
+		brooklyn.speed = 6;
 	}
 
 	var advanceStory = function () {
@@ -91,13 +91,15 @@ var startNeptune9 = function(event) {
 			rylie.isAI = false;
 		}
 
-		story = new Story();
-		chapter = story.start(storyPopover);
-		chapter.start(creatures);
 		creatures[0] = new Creature(0, rylie, creatures);
 		creatures[1] = new Creature(1, brooklyn, creatures);
 		creatures[2] = new Creature(2, Creature.placeHolder, creatures);
 		creatures[3] = new Creature(2, Creature.placeHolder, creatures);
+
+		story = new Story(creatures);
+		chapter = story.start(storyPopover);
+		chapter.start(creatures);
+
 
 		creatures.forEach(function (c) {
 			c.draw();
