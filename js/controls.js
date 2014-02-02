@@ -24,6 +24,7 @@ define(function () {
 		}
 
 		var updateLabels = function () {
+			ele.querySelector('.controlsLabel').innerHTML = creature.name;
 			for (var n = 0; n < 4; n++) {
 				var buttonLabel = document.querySelector(".p" + id + ".controls .act" + n + " .actionLabel");
 				buttonLabel.innerHTML = creature.actions[n].buttonLabel;
