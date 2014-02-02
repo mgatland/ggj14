@@ -183,7 +183,7 @@ var startNeptune9 = function(event) {
 			startGame(2);
 		}
 
-		if (!isGameRunning || storyPopover.isShown()) return;
+		if (!isGameRunning || storyPopover.isShown() || restartPopover.isShown() || startGamePopover.isShown()) return;
 
 		controls[0].update(up2, down2, left2, right2);
 		controls[1].update(up, down, left, right);
