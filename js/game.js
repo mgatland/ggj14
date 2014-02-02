@@ -21,8 +21,8 @@ var startNeptune9 = function(event) {
 	}
 
 	var allActions = [Actions.Shoot, Actions.FindCover, Actions.Charge, Actions.Protect];
-	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Let's go!", cover: 10, isAI:false, actions: allActions, isHero: true};
-	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "I sense trouble.", cover: 10, isAI:false, actions: allActions, isHero: true};
+	var rylie = {name: "Rylie", pic: "warrior.png", greeting: "Here comes trouble.", cover: 10, isAI:false, actions: allActions, isHero: true};
+	var brooklyn = {name: "Brooklyn", pic: "missionary.png", greeting: "Let's go!", cover: 10, isAI:false, actions: allActions, isHero: true};
 
 	if (DEBUG.oneHit) {
 		rylie.cover = 1;
