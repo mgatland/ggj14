@@ -122,6 +122,8 @@ define(function () {
 				ele.classList.toggle("keyhints", true);
 			}
 			if (state === "wait") {
+				/* hack: instructionText isn't shown until chooseAction state, but that updates it a frame too late so we set the text here as well*/
+				creature.instructionText = "<span class='instruction'>Choose Action</span>";
 				ele.classList.add("wait");
 			}
 			if (state === "dead") {
