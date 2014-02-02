@@ -4,10 +4,10 @@ define(["actions", "creature"], function (Actions, Creature) {
 		var allActions = [Actions.Shoot, Actions.FindCover, Actions.Charge, Actions.Protect];
 		var antisocialActions = [Actions.Shoot, Actions.FindCover, Actions.Charge];
 
-		var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 3, actions: antisocialActions, isAI:true, speed: 0.5};
-		var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 4, actions: antisocialActions, isAI:true, speed: 0.75};
-		var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 5, actions: allActions, isAI:true, speed: 0.5};
-		var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 6, actions: antisocialActions, isAI:true, speed: 0.75};
+		var gobnit = {name: "Gobnit", pic: "gobnit.png", greeting: "'Garble garble'", cover: 1, actions: antisocialActions, isAI:true, speed: 0.5};
+		var weewit = {name: "Weewit", pic: "weewit.png", greeting: "'Target assigned.", cover: 3, actions: antisocialActions, isAI:true, speed: 0.75};
+		var leepig = {name: "Leepig", pic: "leepig.png", greeting: "'Leave me alone!'", cover: 4, actions: allActions, isAI:true, speed: 0.5};
+		var dopnot = {name: "Dopnot", pic: "dopnot.png", greeting: "'Grr! Zeek!'", cover: 5, actions: antisocialActions, isAI:true, speed: 0.75};
 
 		var chapters = [];
 		chapters.push({
