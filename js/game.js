@@ -102,9 +102,13 @@ var startNeptune9 = function(event) {
 		if (hardMode) {
 			rylie.cover = 3;
 			brooklyn.cover = 3;
+			rylie.actions[2] = Actions.CheapCharge;
+			brooklyn.actions[2] = Actions.CheapCharge;
 		} else {
 			rylie.cover = 10;
 			brooklyn.cover = 10;
+			rylie.actions[2] = Actions.Charge;
+			brooklyn.actions[2] = Actions.Charge;
 		}
 
 		creatures[0] = new Creature(0, rylie, creatures);
