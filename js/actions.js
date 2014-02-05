@@ -15,7 +15,7 @@ define(function () {
 			var that = this;
 			enemies.forEach(function (enemy) {
 				if (enemy.alive) {
-					ideas.push({move: that, score: 10 + Math.random(), target: enemy.id});
+					ideas.push({move: that, score: 10 + Math.random() * 0.2 - enemy.cover / 10, target: enemy.id});
 				}
 			});
 		};
