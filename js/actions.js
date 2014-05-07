@@ -22,9 +22,9 @@ define(function () {
 	}
 
 	Actions.FindCover = new function () {
-		this.buttonLabel = "Find Cover";
-		this.name = "Taking Cover"
-		this.verb = " move back to find cover.";
+		this.buttonLabel = "Recover";
+		this.name = "Recovering"
+		this.verb = " recover.";
 		this.needsTarget = false;
 		this.cooldown = 90; //Must be slower than 2 shots
 		this.coverCost = -2;
@@ -41,7 +41,7 @@ define(function () {
 				ideas.push({score: 20, move: this});
 				return;
 			}
-			ideas.push({score: 1, move: this});	
+			ideas.push({score: 1, move: this});
 		};
 	}
 
@@ -60,7 +60,7 @@ define(function () {
 				&& Math.random() > 0.7) {
 				ideas.push({score: 15, move: this});
 			}
-		};	
+		};
 	}
 
 	//For characters with very low maximum cover, charge only costs 2
@@ -80,7 +80,7 @@ define(function () {
 				&& friend.cover > 2 && Math.random() > 0.7) {
 				ideas.push({score: 15, move: this});
 			}
-		};	
+		};
 	}
 
 	Actions.Protect = new function () {
@@ -98,7 +98,7 @@ define(function () {
 					ideas.push({score: 25, move:this});
 					return;
 				} else if (friend.cover <= friend.maxCover - 4
-					&& friend.cover <= 3 
+					&& friend.cover <= 3
 					&& friend.cover <= c.cover - 4) {
 					if (Math.random() > 0.7) {
 						ideas.push({score: 19, move:this});
